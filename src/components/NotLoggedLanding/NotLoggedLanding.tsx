@@ -2,8 +2,12 @@ import React from 'react';
 import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { SIGNUP_PATH } from '../../constants';
 
 const NotLoggedLading = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='flex flex-col sm:flex-row h-full w-full'>
       <div className='bg-[#1DA1F2] flex items-center justify-center w-full sm:w-[100%] sm:h-full'>
@@ -41,7 +45,10 @@ const NotLoggedLading = () => {
             <div className='flex-grow border-t border-gray-400'></div>
           </div>
           <div className='w-[300px]'>
-            <button className='btn-landing bg-[#1DA1F2] text-white text-base hover:bg-[#1a8cd8] transition-all'>
+            <button
+              onClick={() => navigate(SIGNUP_PATH)}
+              className='btn-landing bg-[#1DA1F2] text-white text-base hover:bg-[#1a8cd8] transition-all'
+            >
               Sign up with Email
             </button>
             <p className='text-gray-200 opacity-60 text-xs'>
