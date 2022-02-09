@@ -27,29 +27,27 @@ const InputField = ({
   errors,
 }: InputFieldProps) => {
   return (
-    <>
+    <div className='relative w-full'>
       <input
+        id={label}
         {...register(label, { ...rules })}
         placeholder={placeholder}
         name={name}
+        className='peer h-[56px] w-full text-white text-lg border border-[rgb(83,100,113)] bg-transparent mt-4 px-3 py-2 rounded-lg 
+        placeholder-transparent
+        focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0]'
       />
-      {errors[label] && errors[label].type === 'required' && (
-        <p className='mb-3 text-red-500 text-left'>{name} is required</p>
-      )}
-      {errors[label] && errors[label].type === 'maxLength' && (
-        <p className='mb-3 text-red-500 text-left'>
-          {name} should be have maximum of {rules.maxLength} characters
-        </p>
-      )}
-      {errors[label] && errors[label].type === 'minLength' && (
-        <p className='mb-3 text-red-500 text-left'>
-          {name} should be contain atleast {rules.minLength} characters
-        </p>
-      )}
-      {errors[label] && errors[label].type === 'pattern' && (
-        <p className='mb-3 text-red-500 text-left'>{name} is invalid</p>
-      )}
-    </>
+      <label
+        htmlFor={label}
+        className='text-sm text-[#1d9bf0] absolute 
+        left-3.5 top-5 peer-placeholder-shown:text-lg
+        peer-placeholder-shown:text-[rgb(83,100,113)]
+        peer-placeholder-shown:top-8 transition-all
+        peer-focus:left-3.5 peer-focus:top-4 peer-focus:text-sm'
+      >
+        {label}
+      </label>
+    </div>
   );
 };
 
@@ -84,7 +82,7 @@ const Signup = () => {
           </div>
           <span className='flex-1'></span>
         </div>
-        <div className='mx-8 w-full flex flex-col'>
+        <div className='px-8 w-full flex flex-col'>
           <h2 className='text-white text-2xl my-5 font-bold leading-6  break-words'>
             Create your account
           </h2>
@@ -108,6 +106,16 @@ const Signup = () => {
                 rules={{ required: true, pattern: EMAIL_VALIDATION }}
                 errors={errors}
               />
+
+              <div className='text-white mt-9'>
+                <h3 className='font-bold text-base'>Date of birth</h3>
+                <p className='text-xs font-normal text-[rgb(110,118,125)]'>
+                  This will not be shown publicly. Confirm your own age, even if
+                  this account is for a business, a pet or something else.
+                </p>
+              </div>
+
+              <div></div>
 
               <input type='submit' />
             </form>
