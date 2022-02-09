@@ -9,5 +9,6 @@ Project [demo](https://twitter-clone-dd466.web.app/)
 # Build with:
 
 - React
+- React Router
 - TailwindCSS
 - Firebase
