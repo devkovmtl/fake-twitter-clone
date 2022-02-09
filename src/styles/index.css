@@ -26,3 +26,9 @@ body {
   height: 100%;
   display: flex;
 }
+
+@layer components {
+  .btn-landing {
+    @apply bg-white text-black py-3 px-11 font-normal text-sm cursor-pointer flex items-center justify-center outline-none rounded-3xl w-[300px] h-[40px] mb-2;
+  }
+}
