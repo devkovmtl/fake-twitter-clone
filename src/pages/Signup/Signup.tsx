@@ -6,8 +6,7 @@ import { useForm, SubmitHandler, Path, UseFormRegister } from 'react-hook-form';
 import { DAYS, EMAIL_VALIDATION, MONTHS } from '../../constants';
 import { Option } from '../../components';
 import { isLeapYear } from '../../utils';
-
-const formTitle = 'Create your account';
+import FormSubtitle from '../../components/FormSubtittle/FormSubtitle';
 
 const Signup = () => {
   const [formStep, setFormStep] = useState(0);
@@ -183,9 +182,7 @@ const Signup = () => {
           >
             {formStep >= 0 && (
               <section className={formStep === 0 ? 'block' : 'hidden'}>
-                <h2 className='text-white text-2xl my-5 font-bold leading-6  break-words'>
-                  {formTitle}
-                </h2>
+                <FormSubtitle subtitle='Create your account' />
                 <div className='relative w-full my-4'>
                   <input
                     type='text'
@@ -325,9 +322,7 @@ const Signup = () => {
 
             {formStep >= 1 && (
               <section>
-                <h2 className='text-white text-2xl my-5 font-bold leading-6  break-words'>
-                  Customize your experience
-                </h2>
+                <FormSubtitle subtitle='Customize your experience' />
               </section>
             )}
 
