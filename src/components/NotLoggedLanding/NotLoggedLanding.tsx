@@ -3,7 +3,7 @@ import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { SIGNUP_PATH } from '../../constants';
+import { SIGNUP_PATH, SIGNIN_PATH } from '../../constants';
 
 const NotLoggedLading = () => {
   const navigate = useNavigate();
@@ -66,7 +66,10 @@ const NotLoggedLading = () => {
             <p className='text-white text-xl font-bold mb-5'>
               Already have an account ?
             </p>
-            <button className='btn-landing bg-transparent border-2 border-[#536471] text-[#1DA1F2] text-base hover:bg-[#1d9bf0] hover:bg-opacity-5 transition-all'>
+            <button
+              onClick={() => navigate(SIGNIN_PATH)}
+              className='btn-landing bg-transparent border-2 border-[#536471] text-[#1DA1F2] text-base hover:bg-[#1d9bf0] hover:bg-opacity-5 transition-all'
+            >
               Sign in
             </button>
           </div>
