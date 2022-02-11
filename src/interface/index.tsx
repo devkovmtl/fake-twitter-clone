@@ -4,4 +4,6 @@ export interface IFormValues {
   month: number | null;
   day: number | null;
   year: number | null;
+  tracking: boolean;
+  agreePolicy: boolean;
 }

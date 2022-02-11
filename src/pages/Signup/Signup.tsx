@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsTwitter } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
+import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import { EMAIL_VALIDATION } from '../../constants';
-import { FormSubtitle, FormButton, FormInputField } from '../../components';
+import {
+  FormSubtitle,
+  FormButton,
+  FormInputField,
+  FormSelect,
+} from '../../components';
 import {
   buildDayOptions,
   buildMonthOptions,
@@ -28,6 +34,8 @@ const Signup = () => {
       month: null,
       day: null,
       year: null,
+      tracking: true,
+      agreePolicy: false,
     },
   });
 
@@ -43,6 +51,7 @@ const Signup = () => {
       email,
       birthDate,
     };
+    console.log('Submit');
     console.log(user);
   };
 
@@ -51,11 +60,17 @@ const Signup = () => {
   };
 
   const renderButton = () => {
-    console.log('Form Step ', formStep);
     if (formStep > 2) {
       return null;
     } else if (formStep === 2) {
-      return <FormButton type='submit' disabled={!isValid} text='Sign up' />;
+      return (
+        <FormButton
+          type='button'
+          disabled={!isValid}
+          text='Sign up'
+          onClick={() => handleSubmit(submitForm)()}
+        />
+      );
     } else {
       return (
         <FormButton
@@ -67,31 +82,44 @@ const Signup = () => {
       );
     }
   };
-
   return (
     <div className='w-full h-full bg-[#5a7082] flex md:items-center md:justify-center'>
       <div className='bg-black w-full h-full flex flex-col md:rounded-2xl md:h-[650px] md:w-[600px]'>
         {/* HEADER CARD */}
         <div className='h-[53px] text-white flex items-center px-4'>
-          <button
-            onClick={() => navigate(-1)}
-            className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'
-          >
-            <AiOutlineClose size={20} color={'#fff'} />
-          </button>
-          <span className='flex-1'></span>
-          <div>
-            <BsTwitter size={32} color={'#fff'} />
-          </div>
-          <span className='flex-1'></span>
+          {formStep === 0 && (
+            <>
+              <button
+                onClick={() => navigate(-1)}
+                className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'
+              >
+                <AiOutlineClose size={20} color={'#fff'} />
+              </button>
+              <span className='flex-1'></span>
+              <div>
+                <BsTwitter size={32} color={'#fff'} />
+              </div>
+              <span className='flex-1'></span>
+            </>
+          )}
+          {formStep > 0 && (
+            <>
+              <button
+                onClick={() => setFormStep((current) => current - 1)}
+                className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'
+              >
+                <BiChevronLeft size={20} color={'#fff'} />
+              </button>
+              <span className='flex-1'></span>
+              <p className='text-lg text-white'>Step {formStep + 1} of 3</p>
+              <span className='flex-1'></span>
+            </>
+          )}
         </div>
 
         {/* FORM*/}
         <div className='px-8 w-full flex-1 flex flex-col'>
-          <form
-            className='flex-1 flex flex-col'
-            onSubmit={handleSubmit(submitForm)}
-          >
+          <form className='flex-1 flex flex-col'>
             {formStep >= 0 && (
               <section className={formStep === 0 ? 'block' : 'hidden'}>
                 <FormSubtitle subtitle='Create your account' />
@@ -144,59 +172,105 @@ const Signup = () => {
                 <div className='h-[56px] w-full grid grid-cols-7 gap-3 mt-4'>
                   {/* MONTH SELECT */}
                   <div className='relative h-[56px] col-span-3 min-h-full'>
-                    <select
-                      id='month'
-                      {...register('month', { required: true })}
-                      className='peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent '
-                    >
-                      {buildMonthOptions()}
-                    </select>
-                    <label
-                      htmlFor='month'
-                      className='text-sm text-[rgb(83,100,113)] absolute top-0 left-3.5 peer-placeholder-shown:text-lg peer-placeholder-shown:text-[rgb(83,100,113)] peer-placeholder-shown:top-3.5 peer-focus:top-0 peer-focus:left-3.5 peer-focus:text-[#1d9bf0] peer-focus:text-sm transition-all'
-                    >
-                      Month
-                    </label>
+                    <FormSelect
+                      register={register}
+                      label='month'
+                      rules={{
+                        required: true,
+                      }}
+                      title='Month'
+                      children={buildMonthOptions()}
+                    />
                   </div>
                   {/* DAY SELECT */}
                   <div className='relative h-[56px] col-span-2 min-h-full'>
-                    <select
-                      id='day'
-                      {...register('day', { required: true })}
-                      className='peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent '
-                    >
-                      {buildDayOptions(+watchFields[0]!, +watchFields[1]!)}
-                    </select>
-                    <label
-                      htmlFor='day'
-                      className='text-sm text-[rgb(83,100,113)] absolute top-0 left-3.5 peer-placeholder-shown:text-lg peer-placeholder-shown:text-[rgb(83,100,113)] peer-placeholder-shown:top-3.5 peer-focus:top-0 peer-focus:left-3.5 peer-focus:text-[#1d9bf0] peer-focus:text-sm transition-all'
-                    >
-                      Day
-                    </label>
+                    <FormSelect
+                      register={register}
+                      label='day'
+                      rules={{ required: true }}
+                      title='Day'
+                      children={buildDayOptions(
+                        +watchFields[0]!,
+                        +watchFields[1]!
+                      )}
+                    />
                   </div>
                   {/* YEAR SELECT */}
                   <div className='relative h-[56px] col-span-2 min-h-full'>
-                    <select
-                      id='year'
-                      {...register('year', { required: true })}
-                      className='peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent '
-                    >
-                      {buildYearOptions().reverse()}
-                    </select>
-                    <label
-                      htmlFor='year'
-                      className='text-sm text-[rgb(83,100,113)] absolute top-0 left-3.5 peer-placeholder-shown:text-lg peer-placeholder-shown:text-[rgb(83,100,113)] peer-placeholder-shown:top-3.5 peer-focus:top-0 peer-focus:left-3.5 peer-focus:text-[#1d9bf0] peer-focus:text-sm transition-all'
-                    >
-                      Year
-                    </label>
+                    <FormSelect
+                      register={register}
+                      label='year'
+                      rules={{ required: true }}
+                      title='Year'
+                      children={buildYearOptions()}
+                    />
                   </div>
                 </div>
               </section>
             )}
 
-            {formStep >= 1 && (
-              <section>
+            {formStep === 1 && (
+              <section className={formStep === 1 ? 'block' : 'hidden'}>
                 <FormSubtitle subtitle='Customize your experience' />
+                <h3 className='font-bold text-lg text-white mt-8'>
+                  Track where you see FakeTwitter content accross the web
+                </h3>
+
+                <div className='mt-3 flex justify-between items-center'>
+                  <label className='font-normal text-sm text-white pr-4'>
+                    Twitter uses this data to personlize your experience. This
+                    web browsing history will never be stored with your name,
+                    email or phone number.
+                  </label>
+                  <input
+                    type='checkbox'
+                    className='h-6 w-6 rounded-sm outline-none'
+                    {...register('tracking')}
+                  />
+                </div>
+
+                <p className='mt-10 text-sm font-normal text-[rgb(110,118,125)]'>
+                  By signing up, you agree to our{' '}
+                  <span className='text-blue-400'>Terms</span>,{' '}
+                  <span className='text-blue-400'>Privacy Policy</span>, and{' '}
+                  <span className='text-blue-400'>Cookie Use</span>. FakeTwitter
+                  may use your contact information, including your email address
+                  and phone number for purposes outlined in our Privacy Policy.
+                </p>
+              </section>
+            )}
+
+            {formStep === 2 && (
+              <section className={formStep === 2 ? 'block' : 'hidden'}>
+                <FormSubtitle subtitle='Create your account' />
+                <div className='mt-10 flex justify-start items-start'>
+                  <input
+                    type='checkbox'
+                    className='h-6 w-6 rounded-sm outline-none mr-3 '
+                    {...register('agreePolicy', { required: true })}
+                  />
+                  <span className='text-base font-normal text-white'>
+                    I accept the{' '}
+                    <a className='text-blue-400 ' href='/'>
+                      Terms and Conditions
+                    </a>
+                    .
+                  </span>
+                </div>
+                <p className='mt-10 text-base font-normal text-white'>
+                  By signing up, you agree to our{' '}
+                  <span className='text-blue-400'>Terms</span>,{' '}
+                  <span className='text-blue-400'>Privacy Policy</span>, and{' '}
+                  <span className='text-blue-400'>Cookie Use</span>. FakeTwitter
+                  may use your contact information, including your email address
+                  and phone number for purposes outlined in our Privacy Policy,
+                  like keeping your account secure and personlizing our
+                  services, including ads.{' '}
+                  <span className='text-blue-400'>Learn more.</span> Others will
+                  be able to find you by email or phone number, when provided,
+                  unless you choose otherwise{' '}
+                  <span className='text-blue-400'>here</span>.
+                </p>
               </section>
             )}
 
