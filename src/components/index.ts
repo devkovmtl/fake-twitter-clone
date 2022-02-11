@@ -1,3 +1,4 @@
 export { default as NotLoggedLanding } from './NotLoggedLanding/NotLoggedLanding';
-export { default as FormSubtittle } from './FormSubtittle/FormSubtitle';
+export { default as FormSubtitle } from './FormSubtittle/FormSubtitle';
+export { default as FormButton } from './FormButton/FormButton';
 export { default as Option } from './Option/Option';

@@ -6,7 +6,15 @@ import { useForm, SubmitHandler, Path, UseFormRegister } from 'react-hook-form';
 import { DAYS, EMAIL_VALIDATION, MONTHS } from '../../constants';
 import { Option } from '../../components';
 import { isLeapYear } from '../../utils';
-import FormSubtitle from '../../components/FormSubtittle/FormSubtitle';
+import { FormSubtitle, FormButton } from '../../components';
+
+interface IFormValues {
+  name: string;
+  email: string;
+  month: number | null;
+  day: number | null;
+  year: number | null;
+}
 
 const Signup = () => {
   const [formStep, setFormStep] = useState(0);
@@ -31,8 +39,15 @@ const Signup = () => {
   // to update the days number depending on month and year
   const watchFields = watch(['month', 'year']);
 
-  const submitForm = (values: any): void => {
-    console.log(values);
+  const submitForm = (values: IFormValues): void => {
+    const { name, email, year, month, day } = values;
+    const birthDate = new Date(year!, month!, day!);
+    const user = {
+      name,
+      email,
+      birthDate,
+    };
+    console.log(user);
   };
 
   const buildMonthOptions = () => {
@@ -133,25 +148,15 @@ const Signup = () => {
     if (formStep > 2) {
       return null;
     } else if (formStep === 2) {
-      return (
-        <button
-          type='submit'
-          disabled={!isValid}
-          className='h-[44px] w-full rounded-full px-6 border font-bold text-base cursor-pointer bg-[rgb(239,243,244)] hover:bg-[rgb(215,219,220)] disabled:bg-[rgb(120,122,122)] disabled:border-[rgb(120,122,122)] outline-none  transition-all'
-        >
-          Sign up
-        </button>
-      );
+      return <FormButton type='submit' disabled={!isValid} text='Sign up' />;
     } else {
       return (
-        <button
+        <FormButton
           type='button'
           disabled={!isValid}
-          className='h-[44px] w-full rounded-full px-6 border font-bold text-base cursor-pointer bg-[rgb(239,243,244)] hover:bg-[rgb(215,219,220)] disabled:bg-[rgb(120,122,122)] disabled:border-[rgb(120,122,122)] outline-none  transition-all'
           onClick={completeFormStep}
-        >
-          Next
-        </button>
+          text='Next'
+        />
       );
     }
   };
