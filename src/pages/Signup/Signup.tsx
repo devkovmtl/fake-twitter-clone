@@ -1,79 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BsTwitter } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useForm, SubmitHandler, Path, UseFormRegister } from 'react-hook-form';
 import { EMAIL_VALIDATION } from '../../constants';
 
-interface IFormValues {
-  Name: String;
-  Email: String;
-}
-
-type InputFieldProps = {
-  label: Path<IFormValues>;
-  register: UseFormRegister<IFormValues>;
-  placeholder: string;
-  rules: any;
-  name: string;
-  errors: any;
-};
-
-const InputField = ({
-  register,
-  label,
-  placeholder,
-  rules,
-  name,
-  errors,
-}: InputFieldProps) => {
-  return (
-    <div className='relative w-full'>
-      <input
-        id={label}
-        {...register(label, { ...rules })}
-        placeholder={placeholder}
-        name={name}
-        className='peer h-[56px] w-full text-white text-lg border border-[rgb(83,100,113)] bg-transparent mt-4 px-3 py-2 rounded-lg 
-        placeholder-transparent
-        focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0]'
-      />
-      <label
-        htmlFor={label}
-        className='text-sm text-[#1d9bf0] absolute 
-        left-3.5 top-5 peer-placeholder-shown:text-lg
-        peer-placeholder-shown:text-[rgb(83,100,113)]
-        peer-placeholder-shown:top-8 transition-all
-        peer-focus:left-3.5 peer-focus:top-4 peer-focus:text-sm'
-      >
-        {label}
-      </label>
-    </div>
-  );
-};
+const formTitle = 'Create your account';
 
 const Signup = () => {
+  const [step, setStep] = useState(0);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<IFormValues>({
+    formState: { isValid, errors },
+  } = useForm({
+    mode: 'all',
     defaultValues: {
-      Name: '',
-      Email: '',
+      name: '',
+      email: '',
+      month: null,
+      day: null,
+      year: null,
     },
   });
 
-  console.log(errors);
-
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    console.log(data);
+  const submitForm = (values: any): void => {
+    console.log(values);
   };
 
   return (
-    <div className='w-full h-full bg-[#5a7082] flex items-center justify-center'>
-      <div className='bg-black rounded-2xl h-[650px] min-h-[400px] max-h-[90vh] min-w-[600px] max-w-[80vw]'>
-        <div className='flex h-14 items-center px-4'>
-          <button className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'>
+    <div className='w-full h-full bg-[#5a7082] flex md:items-center md:justify-center'>
+      <div className='bg-black w-full h-full md:rounded-2xl md:h-[650px] md:w-[600px]'>
+        {/* HEADER CARD */}
+        <div className='h-[53px] text-white flex items-center px-4'>
+          <button
+            onClick={() => navigate(-1)}
+            className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'
+          >
             <AiOutlineClose size={20} color={'#fff'} />
           </button>
           <span className='flex-1'></span>
@@ -82,42 +46,110 @@ const Signup = () => {
           </div>
           <span className='flex-1'></span>
         </div>
+
+        {/* FORM*/}
         <div className='px-8 w-full flex flex-col'>
           <h2 className='text-white text-2xl my-5 font-bold leading-6  break-words'>
-            Create your account
+            {formTitle}
           </h2>
 
           <div>
-            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
-              <InputField
-                name='name'
-                placeholder='Name'
-                label='Name'
-                register={register}
-                rules={{ required: true, minLength: 3, maxLength: 50 }}
-                errors={errors}
-              />
+            <form className='flex flex-col' onSubmit={handleSubmit(submitForm)}>
+              <section>
+                <div className='relative w-full my-4'>
+                  <input
+                    type='text'
+                    {...register('name', {
+                      required: {
+                        value: true,
+                        message: "What's your name?",
+                      },
+                      min: {
+                        value: 3,
+                        message: 'Name must have a minimum of 3 characters.',
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: 'Name must have a maximum of 50 characters.',
+                      },
+                    })}
+                    placeholder='Name'
+                    className={`peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent ${
+                      errors.name
+                        ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
+                        : ''
+                    }`}
+                  />
+                  <label
+                    className={`text-sm text-[rgb(83,100,113)] absolute top-0 left-3.5 peer-placeholder-shown:text-lg peer-placeholder-shown:text-[rgb(83,100,113)] peer-placeholder-shown:top-3.5 peer-focus:top-0 peer-focus:left-3.5 peer-focus:text-[#1d9bf0] peer-focus:text-sm transition-all ${
+                      errors.name ? 'text-red-500  peer-focus:text-red-500' : ''
+                    }`}
+                  >
+                    Name
+                  </label>
+                  {errors && errors.name && (
+                    <div className='mt-1 ml-2'>
+                      <p className='text-red-600 text-xs font-extralight'>
+                        {errors.name.message}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className='relative w-full my-4'>
+                  <input
+                    type='email'
+                    {...register('email', {
+                      required: {
+                        value: true,
+                        message: 'Please enter a valid email.',
+                      },
+                      pattern: {
+                        value: EMAIL_VALIDATION,
+                        message: 'Please enter a valid email.',
+                      },
+                    })}
+                    placeholder='Email'
+                    className={`peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent ${
+                      errors.email
+                        ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
+                        : ''
+                    }`}
+                  />
+                  <label
+                    className={`text-sm text-[rgb(83,100,113)] absolute top-0 left-3.5 peer-placeholder-shown:text-lg peer-placeholder-shown:text-[rgb(83,100,113)] peer-placeholder-shown:top-3.5 peer-focus:top-0 peer-focus:left-3.5 peer-focus:text-[#1d9bf0] peer-focus:text-sm transition-all ${
+                      errors.email
+                        ? 'text-red-500  peer-focus:text-red-500'
+                        : ''
+                    }`}
+                  >
+                    Email
+                  </label>
+                  {errors && errors.email && (
+                    <div className='mt-1 ml-2'>
+                      <p className='text-red-600 text-xs font-extralight'>
+                        Please enter a valid email.
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className='text-white mt-9'>
+                  <h3 className='font-bold text-base'>Date of birth</h3>
+                  <p className='text-xs font-normal text-[rgb(110,118,125)]'>
+                    This will not be shown publicly. Confirm your own age, even
+                    if this account is for a business, a pet or something else.
+                  </p>
+                </div>
+              </section>
 
-              <InputField
-                name='email'
-                placeholder='Email'
-                label='Email'
-                register={register}
-                rules={{ required: true, pattern: EMAIL_VALIDATION }}
-                errors={errors}
-              />
-
-              <div className='text-white mt-9'>
-                <h3 className='font-bold text-base'>Date of birth</h3>
-                <p className='text-xs font-normal text-[rgb(110,118,125)]'>
-                  This will not be shown publicly. Confirm your own age, even if
-                  this account is for a business, a pet or something else.
-                </p>
+              <div className='mt-3 mb-9 w-full'>
+                <button
+                  type='button'
+                  disabled={!isValid}
+                  className='h-[44px] w-full rounded-full px-6 border font-bold text-base cursor-pointer bg-[rgb(239,243,244)] hover:bg-[rgb(215,219,220)] disabled:bg-[rgb(120,122,122)] disabled:border-[rgb(120,122,122)] outline-none  transition-all'
+                >
+                  Next
+                </button>
               </div>
-
-              <div></div>
-
-              <input type='submit' />
             </form>
           </div>
         </div>
