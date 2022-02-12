@@ -34,10 +34,10 @@ const NotLoggedLading = () => {
             <FcGoogle size={20} className='mr-2' />
             Sign up with Google
           </button>
-          <button className='btn-landing '>
+          {/* <button className='btn-landing '>
             <FaApple size={22} className='mr-2' />
             Sign up with Apple
-          </button>
+          </button> */}
 
           <div className='relative flex py-2 items-center w-[300px]'>
             <div className='flex-grow border-t border-gray-400'></div>

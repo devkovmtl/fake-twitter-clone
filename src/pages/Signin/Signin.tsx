@@ -94,10 +94,10 @@ const Signin = () => {
                     <FcGoogle size={20} className='mr-2' />
                     Sign up with Google
                   </button>
-                  <button className='btn-landing mt-5'>
+                  {/* <button className='btn-landing mt-5'>
                     <FaApple size={22} className='mr-2' />
                     Sign up with Apple
-                  </button>
+                  </button> */}
 
                   <div className='relative flex py-2 items-center w-[300px]'>
                     <div className='flex-grow border-t border-gray-400'></div>
@@ -153,8 +153,28 @@ const Signin = () => {
                         Enter your password
                       </h1>
                     </div>
+                    <div className='h-[56px] py-3 bg-[rgb(32,35,39)] border-[rgb(32,35,39)] rounded-md flex items-center pl-3'>
+                      <p className='text-[rgb(217,217,217)]'>{email}</p>
+                    </div>
+                    <FormInputField
+                      type='password'
+                      register={register}
+                      label='password'
+                      placeholder='Password'
+                      errors={errors}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Password is required',
+                        },
+                      }}
+                    />
+
+                    <span className='text-blue-400 hover:cursor-pointer hover:underline'>
+                      Forgot password?
+                    </span>
                   </section>
-                  <div className='mt-auto mb-9 w-full'>
+                  <div className='mt-12 mb-9 w-full'>
                     <FormButton
                       type='button'
                       disabled={!isValid}
