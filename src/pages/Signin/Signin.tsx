@@ -6,7 +6,11 @@ import { FaApple } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
-import { EMAIL_VALIDATION, SIGNUP_PATH } from '../../constants';
+import {
+  EMAIL_VALIDATION,
+  PASSWORD_RESET_PATH,
+  SIGNUP_PATH,
+} from '../../constants';
 import { IFormValues } from '../../interface';
 import { FormButton, FormInputField } from '../../components';
 
@@ -128,7 +132,8 @@ const Signin = () => {
                   </button>
 
                   <button
-                    onClick={() => navigate('/')}
+                    type='button'
+                    onClick={() => navigate(`/${PASSWORD_RESET_PATH}`)}
                     className='btn-landing bg-transparent border-2 border-[#536471] text-white text-base hover:bg-[#536471] hover:bg-opacity-5 transition-all mt-5'
                   >
                     Forgot Password?
@@ -170,9 +175,12 @@ const Signin = () => {
                       }}
                     />
 
-                    <span className='text-blue-400 hover:cursor-pointer hover:underline'>
-                      Forgot password?
-                    </span>
+                    <div
+                      className='text-blue-400 hover:cursor-pointer hover:underline'
+                      onClick={() => navigate(`/${PASSWORD_RESET_PATH}`)}
+                    >
+                      Forgout password?
+                    </div>
                   </section>
                   <div className='mt-12 mb-9 w-full'>
                     <FormButton
