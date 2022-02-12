@@ -4,7 +4,7 @@ import { BsTwitter } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
-import { EMAIL_VALIDATION } from '../../constants';
+import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from '../../constants';
 import {
   FormSubtitle,
   FormButton,
@@ -41,7 +41,7 @@ const Signup = () => {
 
   // we watch the month and year field
   // to update the days number depending on month and year
-  const watchFields = watch(['month', 'year']);
+  const watchFields = watch(['month', 'year', 'password']);
 
   const submitForm = (values: IFormValues): void => {
     const { name, email, year, month, day } = values;
@@ -124,6 +124,7 @@ const Signup = () => {
               <section className={formStep === 0 ? 'block' : 'hidden'}>
                 <FormSubtitle subtitle='Create your account' />
                 <FormInputField
+                  type='text'
                   register={register}
                   label='name'
                   placeholder='Name'
@@ -145,6 +146,7 @@ const Signup = () => {
                 />
 
                 <FormInputField
+                  type='email'
                   register={register}
                   label='email'
                   placeholder='Email'
@@ -211,7 +213,43 @@ const Signup = () => {
 
             {formStep === 1 && (
               <section className={formStep === 1 ? 'block' : 'hidden'}>
-                <FormSubtitle subtitle='Customize your experience' />
+                <FormSubtitle subtitle='Create your password' />
+
+                <FormInputField
+                  type='password'
+                  register={register}
+                  label='password'
+                  placeholder='Password'
+                  errors={errors}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: 'Password is required',
+                    },
+                    pattern: {
+                      value: PASSWORD_VALIDATION,
+                      message:
+                        'Password 8 minimum characters, one uppercase, one lowercase and one digit.',
+                    },
+                  }}
+                />
+
+                <FormInputField
+                  type='password'
+                  register={register}
+                  label='confirmPassword'
+                  placeholder='Confirm Password'
+                  errors={errors}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: 'Confirm your Password',
+                    },
+                    validate: (value: string) =>
+                      value === watchFields[2] || "Password don't match",
+                  }}
+                />
+
                 <h3 className='font-bold text-lg text-white mt-8'>
                   Track where you see FakeTwitter content accross the web
                 </h3>

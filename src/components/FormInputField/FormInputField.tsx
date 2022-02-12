@@ -1,8 +1,10 @@
+import { type } from 'os';
 import React from 'react';
 import { UseFormRegister, Path, FieldErrors } from 'react-hook-form';
 import { IFormValues } from '../../interface';
 
 type FormInputFieldProps = {
+  type: string;
   register: UseFormRegister<IFormValues>;
   label: Path<IFormValues>;
   placeholder: string;
@@ -11,6 +13,7 @@ type FormInputFieldProps = {
 };
 
 const FormInputField = ({
+  type,
   register,
   label,
   placeholder,
@@ -20,7 +23,7 @@ const FormInputField = ({
   return (
     <div className='relative w-full my-4'>
       <input
-        type='text'
+        type={type}
         {...register(label, {
           ...rules,
         })}
