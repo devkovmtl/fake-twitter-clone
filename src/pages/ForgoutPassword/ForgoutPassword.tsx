@@ -69,7 +69,7 @@ const ForgoutPassword = () => {
               }}
             />
 
-            <FormButton disabled={!isValid} text='Submit' type='submit' />
+            <FormButton disabled={true} text='Submit' type='submit' />
           </form>
         </div>
       </div>
