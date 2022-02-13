@@ -78,12 +78,7 @@ const Signup = () => {
 
     // register
     try {
-      const result = await signUpWithEmailPassword(
-        name,
-        email,
-        password,
-        birthDate
-      );
+      const result = await signUpWithEmailPassword(email, password);
       const user = {
         ...result,
         name,

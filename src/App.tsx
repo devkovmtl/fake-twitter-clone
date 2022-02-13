@@ -25,6 +25,7 @@ const RequireAuth = ({ children }: any) => {
 
 const App = () => {
   const { user } = useUserAuthListener();
+  console.log('APP, USER AUTH', user);
   return (
     <UserContext.Provider value={{ user }}>
       <Routes>

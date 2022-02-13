@@ -8,12 +8,19 @@ import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import {
   EMAIL_VALIDATION,
+  HOME_PATH,
+  notifyError,
   PASSWORD_RESET_PATH,
   SIGNUP_PATH,
 } from '../../constants';
 import { IFormValues } from '../../interface';
 import { FormButton, FormInputField } from '../../components';
-import { loginWithEmailPassword } from '../../services';
+import {
+  addUser,
+  doesUserExist,
+  loginWithEmailPassword,
+  signInWithGoogle,
+} from '../../services';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -34,23 +41,56 @@ const Signin = () => {
 
   const email = watch('email');
 
-  const completeFormStep = () => {
+  const completeFormStep = async () => {
     if (!email || !isValid) {
       return;
     }
-    console.log(email);
-    setFormStep((currentFormStep) => currentFormStep + 1);
+    if (formStep === 0) {
+      const userExist = await doesUserExist(email);
+      if (!userExist) {
+        notifyError('Email Not Found');
+        return;
+      } else {
+        setFormStep((currentFormStep) => currentFormStep + 1);
+      }
+    } else {
+      setFormStep((currentFormStep) => currentFormStep + 1);
+    }
   };
 
   const submitForm = async (values: IFormValues) => {
     const { email, password } = values;
 
-    console.log('Submit ', email, password);
     try {
       const result = await loginWithEmailPassword(email, password);
       console.log(result);
-    } catch (error) {
-      console.log(error);
+      navigate(HOME_PATH);
+    } catch (error: any) {
+      if (error.message === 'auth/wrong-password') {
+        notifyError('Invalid Password');
+      } else if (error.message === 'auth/too-many-requests') {
+        notifyError('Too many requests, try again later.');
+      } else {
+        notifyError('An error has occurred please try again.');
+      }
+    }
+  };
+
+  const logInWithGoogle = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const user = {
+        ...result,
+        birthDate: null,
+        tracking: true,
+        agreePolicy: true,
+        createdAt: Date(),
+      };
+
+      await addUser(user);
+      navigate(HOME_PATH);
+    } catch (error: any) {
+      notifyError('An error has occurred please try again.');
     }
   };
 
@@ -102,7 +142,11 @@ const Signin = () => {
                     </h1>
                   </div>
                   <button className='btn-landing mt-10'>
-                    <FcGoogle size={20} className='mr-2' />
+                    <FcGoogle
+                      size={20}
+                      className='mr-2'
+                      onClick={logInWithGoogle}
+                    />
                     Sign up with Google
                   </button>
                   {/* <button className='btn-landing mt-5'>

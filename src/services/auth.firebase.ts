@@ -8,24 +8,32 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { db, auth, usersCollectionRef } from '../firebase';
-import { FirebaseError } from 'firebase/app';
+import { auth } from '../firebase';
 
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
-  } catch (error) {
-    console.log(error);
+
+    const user = {
+      id: result.user.uid,
+      name: result.user.displayName,
+      username: result.user.displayName,
+      email: result.user.email,
+      emailVerified: result.user.emailVerified,
+      phoneNumber: result.user.phoneNumber,
+      photoURL: result.user.photoURL,
+    };
+
+    return user;
+  } catch (error: any) {
+    throw new Error(error.code);
   }
 };
 
 export const signUpWithEmailPassword = async (
-  name: string,
   email: string,
-  password: string,
-  birthdate: Date
+  password: string
 ) => {
   try {
     const result = await createUserWithEmailAndPassword(
@@ -33,20 +41,6 @@ export const signUpWithEmailPassword = async (
       email.trim().toLowerCase(),
       password
     );
-
-    // const user = {
-    //   name,
-    //   email,
-    //   birthdate,
-    //   username: name,
-    //   createdAt: Date(),
-    //   phoneNumber: null,
-    //   photoUrl: '',
-    //   followings: [],
-    //   followers: [],
-    //   tweets: [],
-    //   likes: [],
-    // };
 
     const user = {
       id: result.user.uid,
@@ -69,9 +63,20 @@ export const loginWithEmailPassword = async (
   password: string
 ) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    console.log(error);
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    const user = {
+      id: result.user.uid,
+      name: result.user.displayName,
+      username: result.user.displayName,
+      email: result.user.email,
+      emailVerified: result.user.emailVerified,
+      phoneNumber: result.user.phoneNumber,
+      photoURL: result.user.photoURL,
+    };
+
+    return user;
+  } catch (error: any) {
+    throw new Error(error?.code);
   }
 };
 

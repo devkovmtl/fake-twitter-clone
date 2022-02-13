@@ -1,35 +1,46 @@
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
+import { getUserById } from '../services';
 
 const useUserAuthListener = () => {
   let userLocalStorage;
-  let userIdLocalStorage;
+
   if (localStorage.getItem('currentUser')) {
     userLocalStorage = JSON.parse(localStorage.getItem('currentUser')!);
   }
-  if (localStorage.getItem('currentUserId')) {
-    userIdLocalStorage = JSON.parse(localStorage.getItem('currentUserId')!);
-  }
 
   const [user, setUser] = useState<any>(userLocalStorage);
-  const [userId, setUserId] = useState<any>(userIdLocalStorage);
+
+  const fetchUser = async (id: string) => {
+    try {
+      const user = await getUserById(id);
+      return user;
+    } catch (error) {
+      throw new Error('An error has occured while fetching your profile');
+    }
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (u) => {
+      // console.log('USER STATE CHANGED ', u);
       if (u) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // const uid = user.uid;
-        // ...
-        console.log('USER ', u);
+        fetchUser(u.uid)
+          .then((res: any) => {
+            console.log('USER STATE CHANGED', res);
+            localStorage.setItem('currentUser', JSON.stringify(res));
+            setUser(res);
+          })
+          .catch((err) => {
+            localStorage.removeItem('currentUser');
+            setUser(null);
+          });
       } else {
-        // User is signed out
-        // ...
-        console.log('NO USER ', u);
+        localStorage.removeItem('currentUser');
+        setUser(null);
       }
     });
-  });
+  }, []);
 
   return { user, setUser };
 };
