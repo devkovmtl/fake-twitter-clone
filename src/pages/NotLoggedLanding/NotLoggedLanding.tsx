@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { SIGNUP_PATH, SIGNIN_PATH } from '../../constants';
+import { UserContext } from '../../context';
+import { signInWithGoogle } from '../../services';
 
 const NotLoggedLading = () => {
   const navigate = useNavigate();
+  const user = useContext(UserContext);
+  console.log(user);
 
   return (
     <div className='flex flex-col sm:flex-row h-full w-full'>
@@ -30,7 +34,7 @@ const NotLoggedLading = () => {
         </h2>
 
         <div className='flex flex-col'>
-          <button className='btn-landing '>
+          <button className='btn-landing ' onClick={signInWithGoogle}>
             <FcGoogle size={20} className='mr-2' />
             Sign up with Google
           </button>

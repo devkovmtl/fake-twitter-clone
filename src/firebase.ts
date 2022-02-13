@@ -1,13 +1,20 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore, collection } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: '<FIREBASE_API_KEY>',
-  authDomain: '<FIREBASE_API_KEY>',
-  projectId: '<FIREBASE_API_KEY>',
-  storageBucket: '<FIREBASE_API_KEY>',
-  messagingSenderId: '<FIREBASE_API_KEY>',
-  appId: '<FIREBASE_API_KEY>',
+  apiKey: 'AIzaSyCzekfW6cPmp400laCVCqy1CwmANTJLy3k',
+  authDomain: 'twitter-clone-dd466.firebaseapp.com',
+  projectId: 'twitter-clone-dd466',
+  storageBucket: 'twitter-clone-dd466.appspot.com',
+  messagingSenderId: '316232404761',
+  appId: '1:316232404761:web:d37ee3f9139ff29150bf88',
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+
+export const usersCollectionRef = collection(db, 'users');

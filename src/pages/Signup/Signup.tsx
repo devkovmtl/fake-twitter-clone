@@ -4,7 +4,14 @@ import { BsTwitter } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
-import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from '../../constants';
+
+import {
+  EMAIL_VALIDATION,
+  HOME_PATH,
+  notifyError,
+  notifyInfo,
+  PASSWORD_VALIDATION,
+} from '../../constants';
 import {
   FormSubtitle,
   FormButton,
@@ -17,6 +24,11 @@ import {
   buildYearOptions,
 } from './buildSelectOptions';
 import { IFormValues } from '../../interface';
+import {
+  addUser,
+  doesUserExist,
+  signUpWithEmailPassword,
+} from '../../services';
 
 const Signup = () => {
   const [formStep, setFormStep] = useState(0);
@@ -41,22 +53,53 @@ const Signup = () => {
 
   // we watch the month and year field
   // to update the days number depending on month and year
-  const watchFields = watch(['month', 'year', 'password']);
+  const watchFields = watch(['month', 'year', 'password', 'email']);
 
-  const submitForm = (values: IFormValues): void => {
-    const { name, email, year, month, day } = values;
-    const birthDate = new Date(year!, month!, day!);
-    const user = {
-      name,
-      email,
-      birthDate,
-    };
-    console.log('Submit');
-    console.log(user);
+  const completeFormStep = async () => {
+    const email = watchFields[3];
+    if (formStep === 0) {
+      const userExist = await doesUserExist(email);
+      if (userExist) {
+        notifyError('Email already taken');
+
+        return;
+      } else {
+        setFormStep((currentFormStep) => currentFormStep + 1);
+      }
+    } else {
+      setFormStep((currentFormStep) => currentFormStep + 1);
+    }
   };
 
-  const completeFormStep = () => {
-    setFormStep((currentFormStep) => currentFormStep + 1);
+  const submitForm = async (values: IFormValues) => {
+    const { name, email, year, month, day, password, tracking, agreePolicy } =
+      values;
+    const birthDate = new Date(year!, month!, day!);
+
+    // register
+    try {
+      const result = await signUpWithEmailPassword(
+        name,
+        email,
+        password,
+        birthDate
+      );
+      const user = {
+        ...result,
+        name,
+        username: name,
+        birthDate,
+        tracking,
+        agreePolicy,
+        createdAt: Date(),
+      };
+
+      await addUser(user);
+      navigate(HOME_PATH);
+      notifyInfo('Account Created!');
+    } catch (error) {
+      notifyError('Sorry, an error has occured please try again.');
+    }
   };
 
   const renderButton = () => {

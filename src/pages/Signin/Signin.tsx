@@ -13,6 +13,7 @@ import {
 } from '../../constants';
 import { IFormValues } from '../../interface';
 import { FormButton, FormInputField } from '../../components';
+import { loginWithEmailPassword } from '../../services';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -41,10 +42,16 @@ const Signin = () => {
     setFormStep((currentFormStep) => currentFormStep + 1);
   };
 
-  const submitForm = (values: IFormValues): void => {
+  const submitForm = async (values: IFormValues) => {
     const { email, password } = values;
 
     console.log('Submit ', email, password);
+    try {
+      const result = await loginWithEmailPassword(email, password);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
