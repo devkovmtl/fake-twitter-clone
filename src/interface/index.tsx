@@ -9,3 +9,7 @@ export interface IFormValues {
   tracking: boolean;
   agreePolicy: boolean;
 }
+
+export interface IFormTweet {
+  tweet: string;
+}

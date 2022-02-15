@@ -1,14 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsTwitter } from 'react-icons/bs';
 import { BiHomeCircle, BiSearch } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { HOME_PATH } from '../../constants';
 import { UserContext } from '../../context';
 import { logout } from '../../services';
+import { Modal } from '../../components';
 
 const Landing = () => {
   const { user } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   return (
     <div className='bg-black h-full w-full text-white flex flex-row'>
@@ -45,6 +50,15 @@ const Landing = () => {
         <p>{user.email}</p>
         <p>{user.id}</p>
         <button onClick={logout}>Logout</button>
+
+        <button
+          onClick={openModal}
+          className='bg-blue-500 px-7 py-4 rounded-3xl'
+        >
+          Tweet
+        </button>
+
+        <Modal isOpen={isOpen} closeModal={closeModal} />
       </div>
     </div>
   );
