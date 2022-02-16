@@ -1,5 +1,5 @@
-import React, { Children } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -18,14 +18,8 @@ import {
   ForgoutPassword,
 } from './pages';
 
-const RequireAuth = ({ children }: any) => {
-  let isAuth = null;
-  return isAuth ? children : <Navigate to={`/${SIGNIN_PATH}`} />;
-};
-
 const App = () => {
   const { user } = useUserAuthListener();
-  console.log('APP, USER AUTH', user);
   return (
     <UserContext.Provider value={{ user }}>
       <Routes>
