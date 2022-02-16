@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useContext } from 'react';
+import React, { Fragment, useRef, useContext, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
@@ -21,6 +21,7 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
     watch,
     register,
     handleSubmit,
+    reset,
     formState: { isValid, errors },
   } = useForm<IFormTweet>({
     mode: 'all',
@@ -32,9 +33,24 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
   const tweetWatch = watch('tweet');
 
   const submitForm = async (values: IFormTweet) => {
+    if (values.tweet.trim().length === 0) {
+      return;
+    }
+    if (values.tweet.trim().length > 240) {
+      return;
+    }
+    console.log(user);
     console.log(values.tweet);
+
+    // add the tweet to the user tweets
+    // and also to our tweets
     closeModal();
+    reset();
   };
+
+  useEffect(() => {
+    reset();
+  }, [isOpen]);
 
   return (
     <Dialog
@@ -46,7 +62,7 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
     >
       <div className='min-h-screen flex flex-col items-center w-full bg-[rgba(91,112,131,0.4)]'>
         <Dialog.Overlay className='fixed inset-0' />
-        <div className='w-full h-screen md:h-[278px] md:max-h-[278px] md:w-[600px] overflow-hidden md:rounded-2xl md:mt-9 bg-black bg-opacity-100 p-4 z-50'>
+        <div className='w-full h-screen md:min-h-[278px] md:max-h-[345px]   md:w-[600px] overflow-hidden md:rounded-2xl md:mt-9 bg-black bg-opacity-100 p-4 z-50'>
           <div className='h-[53px]'>
             <button
               onClick={closeModal}
@@ -65,21 +81,22 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
               />
             </div>
             <div className='pt-1 flex-1'>
-              <form>
-                <div className='flex h-28'>
+              <form className='flex flex-col'>
+                <div className=''>
                   <textarea
                     id='tweet'
                     placeholder="What's happening?"
-                    className='placeholder-[#6E767D] w-full font-normal bg-transparent focus:border-none border-none focus:outline-none focus:ring-transparent text-white text-lg'
+                    className='block placeholder-[#6E767D] w-full font-normal bg-transparent focus:border-none border-none focus:outline-none focus:ring-transparent text-white text-lg h-[160px] rounded-xl md:resize-none bg-[rgba(100,116, 139,0.1)]'
                     {...register('tweet', {
                       maxLength: 240,
                     })}
+                    rows={6}
                   ></textarea>
                 </div>
 
-                <div className='mt-4'>
+                <div className='mt-7 flex items-center justify-end'>
                   {tweetWatch.length > 0 && (
-                    <div>
+                    <div className='mr-5'>
                       <CircularProgressBar
                         width='30'
                         progressValue={tweetWatch.length}
@@ -91,6 +108,7 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
                       />
                     </div>
                   )}
+
                   <button
                     type='button'
                     className='inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-2xl float-right hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'

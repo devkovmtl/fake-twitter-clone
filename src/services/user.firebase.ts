@@ -1,4 +1,12 @@
-import { doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { db, usersCollectionRef } from '../firebase';
 
 export const doesUserExist = async (email: string) => {
@@ -25,6 +33,18 @@ export const getUserById = async (id: string) => {
     // firebase.firestore().collection('cues').doc(id).get()
     const userDoc = doc(db, 'users', id);
     return await (await getDoc(userDoc)).data();
+  } catch (error: any) {
+    throw new Error(error?.code);
+  }
+};
+
+export const updateUser = async (id: string, updateUser: any) => {
+  try {
+    const userDoc = doc(db, 'users', id);
+    if (!userDoc) {
+      throw new Error('No user found');
+    }
+    return updateDoc(userDoc, updateUser);
   } catch (error: any) {
     throw new Error(error?.code);
   }

@@ -86,7 +86,6 @@ const Signup = () => {
         birthDate,
         tracking,
         agreePolicy,
-        createdAt: Date(),
       };
 
       await addUser(user);

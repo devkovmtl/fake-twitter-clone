@@ -20,7 +20,7 @@ const CircularProgressBar = ({
   maxProgressValue,
 }: CircularProgressProps) => {
   // degre progress
-  const degProgress = maxProgressValue / 360;
+  const degProgress = 360 / maxProgressValue;
 
   return (
     <div
@@ -37,11 +37,13 @@ const CircularProgressBar = ({
       }}
     >
       <div className='value relative'>
-        {maxProgressValue - progressValue < 10 ? (
-          <span className={`text-[rgb(110,118,125)] text-xs`}>
+        {maxProgressValue - progressValue > 0 ? (
+          <span className={`text-[#6E767D] text-xs`}>{progressValue}</span>
+        ) : (
+          <span className={`text-[rgb(255,0,0)] text-xs`}>
             {maxProgressValue - progressValue}
           </span>
-        ) : null}
+        )}
       </div>
     </div>
   );

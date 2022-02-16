@@ -22,7 +22,6 @@ const NotLoggedLading = () => {
         birthDate: null,
         tracking: true,
         agreePolicy: true,
-        createdAt: Date(),
       };
 
       await addUser(user);

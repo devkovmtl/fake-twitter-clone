@@ -1,4 +1,11 @@
-import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  serverTimestamp,
+} from 'firebase/firestore';
 
 import {
   signInWithPopup,
@@ -50,6 +57,7 @@ export const signUpWithEmailPassword = async (
       emailVerified: result.user.emailVerified,
       phoneNumber: result.user.phoneNumber,
       photoURL: result.user.photoURL,
+      createdAt: serverTimestamp(),
     };
 
     return user;
@@ -72,6 +80,7 @@ export const loginWithEmailPassword = async (
       emailVerified: result.user.emailVerified,
       phoneNumber: result.user.phoneNumber,
       photoURL: result.user.photoURL,
+      createdAt: serverTimestamp(),
     };
 
     return user;
