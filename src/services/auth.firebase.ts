@@ -1,11 +1,4 @@
-import {
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  where,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { serverTimestamp } from 'firebase/firestore';
 
 import {
   signInWithPopup,
@@ -30,6 +23,7 @@ export const signInWithGoogle = async () => {
       emailVerified: result.user.emailVerified,
       phoneNumber: result.user.phoneNumber,
       photoURL: result.user.photoURL,
+      createdAt: serverTimestamp(),
     };
 
     return user;

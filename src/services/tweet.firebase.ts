@@ -1,14 +1,5 @@
-import {
-  addDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-  serverTimestamp,
-} from 'firebase/firestore';
-import { db, tweetsCollectionRef } from '../firebase';
+import { addDoc, serverTimestamp } from 'firebase/firestore';
+import { tweetsCollectionRef } from '../firebase';
 
 export const addTweet = async (user: any, text: string) => {
   try {
