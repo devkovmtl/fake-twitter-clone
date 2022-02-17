@@ -1,4 +1,5 @@
 import {
+  arrayUnion,
   doc,
   getDoc,
   getDocs,
@@ -30,7 +31,6 @@ export const addUser = async (user: any) => {
 
 export const getUserById = async (id: string) => {
   try {
-    // firebase.firestore().collection('cues').doc(id).get()
     const userDoc = doc(db, 'users', id);
     return await (await getDoc(userDoc)).data();
   } catch (error: any) {
@@ -38,13 +38,25 @@ export const getUserById = async (id: string) => {
   }
 };
 
-export const updateUser = async (id: string, updateUser: any) => {
+// // Atomically add a new region to the "regions" array field.
+// await updateDoc(washingtonRef, {
+//   regions: arrayUnion("greater_virginia")
+// });
+
+// // Atomically remove a region from the "regions" array field.
+// await updateDoc(washingtonRef, {
+//   regions: arrayRemove("east_coast")
+// });
+
+export const updateUserTweets = async (id: string, tweet: any) => {
   try {
     const userDoc = doc(db, 'users', id);
     if (!userDoc) {
       throw new Error('No user found');
     }
-    return updateDoc(userDoc, updateUser);
+    return updateDoc(userDoc, {
+      tweets: arrayUnion(tweet),
+    });
   } catch (error: any) {
     throw new Error(error?.code);
   }

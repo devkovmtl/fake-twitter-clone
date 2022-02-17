@@ -14,8 +14,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// initialize services
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
+// collection reference
 export const usersCollectionRef = collection(db, 'users');
 export const tweetsCollectionRef = collection(db, 'tweets');
