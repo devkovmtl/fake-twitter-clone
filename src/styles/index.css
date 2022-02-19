@@ -2,38 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 15px;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-option {
-  background-color: black;
-  color: white;
-}
-
-#root {
-  height: 100%;
-  display: flex;
-}
-
 @layer base {
   html {
     font-family: 'Open Sans', sans-serif;
@@ -41,8 +9,8 @@ option {
   }
 }
 
-@layer components {
+/* @layer components {
   .btn-landing {
     @apply bg-white text-black py-3 px-11 font-normal text-sm cursor-pointer flex items-center justify-center outline-none rounded-3xl w-[300px] h-[40px] mb-2;
   }
-}
+} */
