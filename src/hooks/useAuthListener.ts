@@ -22,17 +22,14 @@ const useAuthListener = () => {
     // listen to firebase state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        localStorage.set('authUser', undefined);
+        localStorage.removeItem('authUser');
         setUserAuth(undefined);
       }
       if (user) {
         // TODO
         // fetch user to set update profile
         // fetchUser(user.uid)
-        localStorage.set(
-          'authUser',
-          localStorage.setItem('authUser', JSON.stringify(user))
-        );
+        localStorage.setItem('authUser', JSON.stringify(user));
         setUserAuth(user);
       }
     });

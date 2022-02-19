@@ -1,3 +1,4 @@
+export { default as Layout } from './Layout/Layout';
 export { default as FormSubtitle } from './FormSubtittle/FormSubtitle';
 export { default as FormButton } from './FormButton/FormButton';
 export { default as FormInputField } from './FormInputField/FormInputField';

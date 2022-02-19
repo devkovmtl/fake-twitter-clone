@@ -2,34 +2,49 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { UserContext } from './context';
+import { useAuthListener } from './hooks';
+
+import { Layout } from './components';
 import {
   HOME_PATH,
-  SIGNUP_PATH,
-  SIGNIN_PATH,
+  LOGIN_PATH,
   PASSWORD_RESET_PATH,
+  REGISTER_PATH,
 } from './constants';
-import { UserContext } from './context';
-import { useUserAuthListener } from './hooks';
-import {
-  Landing,
-  NotLoggedLanding,
-  Signup,
-  Signin,
-  ForgoutPassword,
-} from './pages';
+import { ProtectedRoute, UserRedirect } from './helpers';
 
 const App = () => {
-  const { user } = useUserAuthListener();
+  const [userAuth] = useAuthListener();
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={{ userAuth }}>
       <Routes>
-        <Route
-          path={HOME_PATH}
-          element={user ? <Landing /> : <NotLoggedLanding />}
-        />
-        <Route path={SIGNUP_PATH} element={<Signup />} />
-        <Route path={SIGNIN_PATH} element={<Signin />} />
-        <Route path={PASSWORD_RESET_PATH} element={<ForgoutPassword />} />
+        <Route path='/' element={<Layout />}>
+          {/* HOME PAGE */}
+          <Route element={<ProtectedRoute authUser={userAuth} />}>
+            <Route path={HOME_PATH} element={<div>HOME PAGE</div>} />
+          </Route>
+
+          {/* LOGIN PAGE */}
+          <Route element={<UserRedirect authUser={userAuth} />}>
+            <Route path={LOGIN_PATH} element={<div>LOGIN PAGE</div>} />
+          </Route>
+          {/* REGISTER PAGE */}
+          <Route element={<UserRedirect authUser={userAuth} />}>
+            <Route path={REGISTER_PATH} element={<div>REGISTER PAGE</div>} />
+          </Route>
+          {/* RESET PASSWORD PAGE */}
+          <Route element={<UserRedirect authUser={userAuth} />}>
+            <Route
+              path={PASSWORD_RESET_PATH}
+              element={<div>RESET PASSWORD PAGE</div>}
+            />
+          </Route>
+
+          {/* NOT FOUND */}
+          <Route path='*' element={<div>NOT FOUND</div>} />
+        </Route>
       </Routes>
       <ToastContainer />
     </UserContext.Provider>
