@@ -1,2 +1,2 @@
 export { default as useDarkMode } from './useDarkMode';
-export { default as useUserAuthListener } from './useUserAuthListener';
+export { default as useAuthListener } from './useAuthListener';
