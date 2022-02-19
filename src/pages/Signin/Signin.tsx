@@ -11,7 +11,7 @@ import {
   HOME_PATH,
   notifyError,
   PASSWORD_RESET_PATH,
-  SIGNUP_PATH,
+  REGISTER_PATH,
 } from '../../constants';
 import { IFormValues } from '../../interface';
 import { FormButton, FormInputField } from '../../components';
