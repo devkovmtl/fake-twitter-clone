@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
-import { FaApple } from 'react-icons/fa';
+// import { FaApple } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import {
   EMAIL_VALIDATION,
   HOME_PATH,
-  notifyError,
   PASSWORD_RESET_PATH,
   REGISTER_PATH,
 } from '../../constants';
+
 import { IFormValues } from '../../interface';
 import { FormButton, FormInputField } from '../../components';
 import {
@@ -21,6 +21,7 @@ import {
   loginWithEmailPassword,
   signInWithGoogle,
 } from '../../services';
+import { notifyError } from '../../utils';
 
 const Signin = () => {
   const navigate = useNavigate();

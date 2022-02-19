@@ -2,12 +2,13 @@ import { toast, ToastOptions } from 'react-toastify';
 
 const options: ToastOptions = {
   position: 'bottom-center',
-  autoClose: 2500,
-  hideProgressBar: false,
+  autoClose: 2000,
+  hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: false,
-  draggable: true,
+  draggable: false,
   progress: undefined,
+  theme: 'colored',
 };
 
 export const notifyError = (message: string) => toast.error(message, options);
