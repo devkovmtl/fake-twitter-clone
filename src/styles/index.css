@@ -7,10 +7,27 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
   }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
 }
 
-/* @layer components {
-  .btn-landing {
-    @apply bg-white text-black py-3 px-11 font-normal text-sm cursor-pointer flex items-center justify-center outline-none rounded-3xl w-[300px] h-[40px] mb-2;
+@layer components {
+  .btn-auth {
+    @apply w-[300px] h-[40px] py-3 px-11 rounded-3xl cursor-pointer flex items-center justify-center outline-none font-bold text-sm transition ease-in-out duration-150;
   }
-} */
+
+  .btn-auth-light {
+    @apply bg-white text-black border border-t-extra-light-gray dark:border-none hover:bg-gray-200/60 dark:hover:bg-gray-100/90;
+  }
+
+  .btn-auth-light-alt {
+    @apply bg-white text-black border border-t-extra-light-gray hover:bg-gray-200/60 dark:bg-black dark:border dark:border-t-extra-light-gray/80  dark:text-white dark:hover:bg-black/50;
+  }
+
+  .btn-auth-dark {
+    @apply bg-black text-white border-none hover:bg-black/80  dark:bg-white dark:text-black dark:hover:bg-gray-100/90;
+  }
+}

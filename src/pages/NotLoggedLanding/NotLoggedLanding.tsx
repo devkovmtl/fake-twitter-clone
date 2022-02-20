@@ -3,14 +3,10 @@ import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import {
-  SIGNUP_PATH,
-  SIGNIN_PATH,
-  notifyError,
-  HOME_PATH,
-} from '../../constants';
+import { REGISTER_PATH, LOGIN_PATH, HOME_PATH } from '../../constants';
 import { UserContext } from '../../context';
 import { addUser, signInWithGoogle } from '../../services';
+import { notifyError } from '../../utils';
 
 const NotLoggedLading = () => {
   const navigate = useNavigate();
@@ -69,7 +65,7 @@ const NotLoggedLading = () => {
           </div>
           <div className='w-[300px]'>
             <button
-              onClick={() => navigate(SIGNUP_PATH)}
+              onClick={() => navigate(REGISTER_PATH)}
               className='btn-landing bg-[#1DA1F2] text-white text-base hover:bg-[#1a8cd8] transition-all'
             >
               Sign up with Email
@@ -90,7 +86,7 @@ const NotLoggedLading = () => {
               Already have an account ?
             </p>
             <button
-              onClick={() => navigate(SIGNIN_PATH)}
+              onClick={() => navigate(LOGIN_PATH)}
               className='btn-landing bg-transparent border-2 border-[#536471] text-[#1DA1F2] text-base hover:bg-[#1d9bf0] hover:bg-opacity-5 transition-all'
             >
               Sign in

@@ -8,8 +8,6 @@ import { useForm } from 'react-hook-form';
 import {
   EMAIL_VALIDATION,
   HOME_PATH,
-  notifyError,
-  notifyInfo,
   PASSWORD_VALIDATION,
 } from '../../constants';
 import {
@@ -29,6 +27,7 @@ import {
   doesUserExist,
   signUpWithEmailPassword,
 } from '../../services';
+import { notifyError, notifyInfo } from '../../utils';
 
 const Signup = () => {
   const [formStep, setFormStep] = useState(0);

@@ -1,4 +1,8 @@
 export { default as Layout } from './Layout/Layout';
+export { default as AuthFormStepHeader } from './AuthFormStepHeader/AuthFormStepHeader';
+export { default as AuthFormTitleHeader } from './AuthFormTitleHeader/AuthFormTitleHeader';
+export { default as AuthFormSeparator } from './AuthFormSeparator/AuthFormSeparator';
+export { default as AuthFormButton } from './AuthFormButton/AuthFormButton';
 export { default as FormSubtitle } from './FormSubtittle/FormSubtitle';
 export { default as FormButton } from './FormButton/FormButton';
 export { default as FormInputField } from './FormInputField/FormInputField';

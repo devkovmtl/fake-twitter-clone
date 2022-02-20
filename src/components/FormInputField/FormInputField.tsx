@@ -1,4 +1,3 @@
-import { type } from 'os';
 import React from 'react';
 import { UseFormRegister, Path, FieldErrors } from 'react-hook-form';
 import { IFormValues } from '../../interface';
@@ -28,7 +27,7 @@ const FormInputField = ({
           ...rules,
         })}
         placeholder={placeholder}
-        className={`peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent ${
+        className={`peer h-[56px] w-full bg-transparent rounded-lg text-black dark:text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent ${
           errors[`${label}`]
             ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
             : ''

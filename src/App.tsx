@@ -13,7 +13,8 @@ import {
   PASSWORD_RESET_PATH,
   REGISTER_PATH,
 } from './constants';
-import { ProtectedRoute, UserRedirect } from './helpers';
+import { ProtectedRoute, UserRedirect } from './helpers/routes';
+import { Signin } from './pages';
 
 const App = () => {
   const [userAuth] = useAuthListener();
@@ -28,7 +29,7 @@ const App = () => {
 
           {/* LOGIN PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={LOGIN_PATH} element={<div>LOGIN PAGE</div>} />
+            <Route path={LOGIN_PATH} element={<Signin />} />
           </Route>
           {/* REGISTER PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
