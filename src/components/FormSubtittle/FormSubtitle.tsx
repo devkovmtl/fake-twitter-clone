@@ -6,7 +6,7 @@ type FormSubtitleProps = {
 
 const FormSubtitle = ({ subtitle }: FormSubtitleProps) => {
   return (
-    <h2 className='text-white text-2xl my-5 font-bold leading-6  break-words'>
+    <h2 className='text-black dark:text-white text-2xl my-5 font-bold leading-6 break-words'>
       {subtitle}
     </h2>
   );

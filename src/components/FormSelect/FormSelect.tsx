@@ -22,7 +22,7 @@ const FormSelect = ({
       <select
         id={label}
         {...register(label, { ...rules })}
-        className='peer h-[56px] w-full bg-transparent rounded-lg text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent '
+        className='peer h-[56px] w-full bg-transparent rounded-lg text-black dark:text-white text-lg border border-[rgb(83,100,113)] pt-3 focus:outline-none focus:border-[#1d9bf0] focus:ring-1 focus:ring-[#1d9bf0] placeholder-transparent '
       >
         {children}
       </select>

@@ -14,7 +14,7 @@ import {
   REGISTER_PATH,
 } from './constants';
 import { ProtectedRoute, UserRedirect } from './helpers/routes';
-import { Signin } from './pages';
+import { Signin, Signup} from './pages';
 
 const App = () => {
   const [userAuth] = useAuthListener();
@@ -33,7 +33,7 @@ const App = () => {
           </Route>
           {/* REGISTER PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={REGISTER_PATH} element={<div>REGISTER PAGE</div>} />
+            <Route path={REGISTER_PATH} element={< Signup />} />
           </Route>
           {/* RESET PASSWORD PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
