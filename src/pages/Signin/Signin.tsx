@@ -95,18 +95,16 @@ const Signin = () => {
                 className='text-black dark:text-white'
               />
             }
-            callbackStep0={() => navigate(-1)}
+            callback={() => navigate(-1)}
           />
         )}
         {formStep > 0 && (
           <AuthFormStepHeader
-            step={0}
+            step={1}
             iconAction={
               <BiChevronLeft size={20} className='text-black dark:text-white' />
             }
-            callbackStep1={(currentStep: number) =>
-              setFormStep(currentStep - 1)
-            }
+            callback={() => setFormStep((step) => step - 1)}
           />
         )}
 
@@ -153,9 +151,8 @@ const Signin = () => {
                     type='button'
                     text='Forgot password?'
                     callback={() =>
-                      navigate(`/${PASSWORD_RESET_PATH}`, {
+                      navigate(`${PASSWORD_RESET_PATH}`, {
                         replace: true,
-                        state: { from: 'login' },
                       })
                     }
                     classNames='mt-4 btn-auth btn-auth-light-alt'
@@ -166,7 +163,9 @@ const Signin = () => {
                     <span
                       className='text-blue-400 hover:cursor-pointer'
                       onClick={() =>
-                        navigate(`/${REGISTER_PATH}`, { replace: true })
+                        navigate(`${REGISTER_PATH}`, {
+                          replace: true,
+                        })
                       }
                     >
                       Sign up
@@ -178,7 +177,7 @@ const Signin = () => {
                 <>
                   <section className={formStep === 1 ? 'block' : 'hidden'}>
                     <div className='h-[56px]'>
-                      <h1 className='text-white text-2xl font-bold my-4'>
+                      <h1 className='text-black dark:text-white text-2xl font-bold my-4'>
                         Enter your password
                       </h1>
                     </div>
@@ -201,7 +200,11 @@ const Signin = () => {
 
                     <div
                       className='text-blue-400 hover:cursor-pointer hover:underline'
-                      onClick={() => navigate(`/${PASSWORD_RESET_PATH}`)}
+                      onClick={() =>
+                        navigate(`${PASSWORD_RESET_PATH}`, {
+                          replace: true,
+                        })
+                      }
                     >
                       Forgout password?
                     </div>

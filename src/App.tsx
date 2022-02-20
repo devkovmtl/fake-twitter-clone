@@ -14,7 +14,7 @@ import {
   REGISTER_PATH,
 } from './constants';
 import { ProtectedRoute, UserRedirect } from './helpers/routes';
-import { Signin, Signup} from './pages';
+import { Home, Signin, Signup, NotLoggedLanding } from './pages';
 
 const App = () => {
   const [userAuth] = useAuthListener();
@@ -22,9 +22,14 @@ const App = () => {
     <UserContext.Provider value={{ userAuth }}>
       <Routes>
         <Route path='/' element={<Layout />}>
-          {/* HOME PAGE */}
+          {/* HOME PAGE IF USER IS LOGGED */}
           <Route element={<ProtectedRoute authUser={userAuth} />}>
-            <Route path={HOME_PATH} element={<div>HOME PAGE</div>} />
+            <Route path={HOME_PATH} element={<Home />} />
+          </Route>
+
+          {/* HOME PAGE IF USER IS NOT LOGGED */}
+          <Route element={<UserRedirect authUser={userAuth} />}>
+            <Route path='/' element={<NotLoggedLanding />} />
           </Route>
 
           {/* LOGIN PAGE */}
@@ -33,7 +38,7 @@ const App = () => {
           </Route>
           {/* REGISTER PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={REGISTER_PATH} element={< Signup />} />
+            <Route path={REGISTER_PATH} element={<Signup />} />
           </Route>
           {/* RESET PASSWORD PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>

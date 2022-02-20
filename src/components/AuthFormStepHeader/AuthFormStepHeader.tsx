@@ -4,20 +4,18 @@ import { BsTwitter } from 'react-icons/bs';
 type AuthFormStepHeaderProps = {
   step: number;
   iconAction: JSX.Element;
-  callbackStep0?: () => void;
-  callbackStep1?: (number: number) => void;
+  callback: (e: React.MouseEvent) => void;
 };
 const AuthFormStepHeader = ({
   step = 0,
   iconAction,
-  callbackStep0,
-  callbackStep1,
+  callback,
 }: AuthFormStepHeaderProps) => {
   return (
     <div className='h-[53px] flex items-center px-4'>
       <>
         <button
-          onClick={() => (step === 0 ? callbackStep0 : callbackStep1)}
+          onClick={callback}
           className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-t-light-gray hover:bg-opacity-30 transition-all ease-in-out duration-150'
         >
           {iconAction}

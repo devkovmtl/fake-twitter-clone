@@ -43,7 +43,7 @@ export const signInWithGoogle = async () => {
     const user = createUserWithAuthResult(result);
     return user;
   } catch (error: any) {
-    throw new Error(error.message || 'Error SignIn with Google');
+    throw new Error(error.code || 'Error SignIn with Google');
   }
 };
 
@@ -60,7 +60,7 @@ export const signUpWithEmailPassword = async (
     const user = createUserWithAuthResult(result);
     return user;
   } catch (error: any) {
-    throw new Error(error.message || 'Error SignIn with Email and Password');
+    throw new Error(error.code || 'Error SignIn with Email and Password');
   }
 };
 
@@ -73,7 +73,7 @@ export const loginWithEmailPassword = async (
     const user = createUserWithAuthResult(result);
     return user;
   } catch (error: any) {
-    throw new Error(error.message || 'Error Login with Email and Password');
+    throw new Error(error.code || 'Error Login with Email and Password');
   }
 };
 

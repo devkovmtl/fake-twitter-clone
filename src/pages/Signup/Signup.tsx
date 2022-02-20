@@ -138,7 +138,7 @@ const Signup = () => {
                 className='text-black dark:text-white'
               />
             }
-            callbackStep0={() => navigate(-1)}
+            callback={() => navigate(-1)}
           />
         )}
         {formStep > 0 && (
@@ -147,9 +147,7 @@ const Signup = () => {
             iconAction={
               <BiChevronLeft size={20} className='text-black dark:text-white' />
             }
-            callbackStep1={(currentStep: number) =>
-              setFormStep(currentStep - 1)
-            }
+            callback={() => setFormStep((step) => step - 1)}
           />
         )}
         {/*  FORM */}
