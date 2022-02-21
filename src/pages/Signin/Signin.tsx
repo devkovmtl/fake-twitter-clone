@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 // Icons
 import { AiOutlineClose } from 'react-icons/ai';
-import { BsTwitter } from 'react-icons/bs';
+
 import { BiChevronLeft } from 'react-icons/bi';
 import { FcGoogle } from 'react-icons/fc';
 
 import {
+  addUser,
   doesUserExist,
   loginWithEmailPassword,
   signInWithGoogle,
@@ -32,6 +33,22 @@ import { IFormValues } from '../../interface';
 const Signin = () => {
   const [formStep, setFormStep] = useState(0);
   const navigate = useNavigate();
+
+  const logInWithGoogle = async () => {
+    try {
+      const user = await signInWithGoogle();
+      if (user.email) {
+        const userExist = await doesUserExist(user.email);
+        if (!userExist) {
+          // add user to db
+          await addUser(user);
+        }
+      }
+      navigate(HOME_PATH);
+    } catch (error: any) {
+      notifyError('An error has occurred please try again.');
+    }
+  };
 
   const {
     register,
@@ -118,7 +135,7 @@ const Signin = () => {
                   <AuthFormButton
                     type='button'
                     text='Sign in with Google'
-                    callback={signInWithGoogle}
+                    callback={logInWithGoogle}
                     classNames='btn-auth btn-auth-light'
                     provider='google'
                     icon={<FcGoogle size={20} className='mr-2' />}

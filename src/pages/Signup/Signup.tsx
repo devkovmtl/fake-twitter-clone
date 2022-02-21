@@ -64,19 +64,25 @@ const Signup = () => {
 
     // register
     try {
-      const result = await signUpWithEmailPassword(email, password);
-      const user = {
-        ...result,
-        name,
-        username: name,
-        birthDate,
-        tracking,
-        agreePolicy,
-      };
+      const userExist = await doesUserExist(email);
+      if (!userExist) {
+        const result = await signUpWithEmailPassword(email, password);
+        const user = {
+          ...result,
+          name,
+          username: name,
+          atTweeterName: `@${name}`,
+          birthDate,
+          tracking,
+          agreePolicy,
+        };
 
-      await addUser(user);
-      navigate(HOME_PATH);
-      notifyInfo('Account Created!');
+        await addUser(user);
+        navigate(HOME_PATH);
+        notifyInfo('Account Created!');
+      } else {
+        notifyError('User already Exist');
+      }
     } catch (error) {
       notifyError('Sorry, an error has occured please try again.');
     }
