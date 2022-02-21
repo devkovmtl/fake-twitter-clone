@@ -4,10 +4,26 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
   setDoc,
+  where,
 } from 'firebase/firestore';
+
 import { db, tweetsCollectionRef } from '../firebase';
+
+export const getAllUsersTweets = async (userId: string) => {
+  try {
+    // create doc reference
+    const q = query(tweetsCollectionRef, where('authorId', '==', userId));
+
+    const { docs } = await getDocs(q);
+
+    return docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  } catch (error: any) {
+    throw new Error(error.code || 'An error has occurred');
+  }
+};
 
 export const getAllTweets = async () => {
   try {

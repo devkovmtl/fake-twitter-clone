@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { UserContext } from './context';
-import { useAuthListener } from './hooks';
+import { ThemeContext, UserContext } from './context';
+import { useAuthListener, useDarkMode } from './hooks';
 
 import { Layout } from './components';
 import {
@@ -24,39 +24,42 @@ import {
 
 const App = () => {
   const [userAuth] = useAuthListener();
+  const [isDarkMode, setIsDarkMode] = useDarkMode();
   return (
-    <UserContext.Provider value={{ userAuth }}>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          {/* HOME PAGE IF USER IS LOGGED */}
-          <Route element={<ProtectedRoute authUser={userAuth} />}>
-            <Route path={HOME_PATH} element={<Home />} />
-          </Route>
+    <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+      <UserContext.Provider value={{ userAuth }}>
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            {/* HOME PAGE IF USER IS LOGGED */}
+            <Route element={<ProtectedRoute authUser={userAuth} />}>
+              <Route path={HOME_PATH} element={<Home />} />
+            </Route>
 
-          {/* HOME PAGE IF USER IS NOT LOGGED */}
-          <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path='/' element={<NotLoggedLanding />} />
-          </Route>
+            {/* HOME PAGE IF USER IS NOT LOGGED */}
+            <Route element={<UserRedirect authUser={userAuth} />}>
+              <Route path='/' element={<NotLoggedLanding />} />
+            </Route>
 
-          {/* LOGIN PAGE */}
-          <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={LOGIN_PATH} element={<Signin />} />
-          </Route>
-          {/* REGISTER PAGE */}
-          <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={REGISTER_PATH} element={<Signup />} />
-          </Route>
-          {/* RESET PASSWORD PAGE */}
-          <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route path={PASSWORD_RESET_PATH} element={<ForgoutPassword />} />
-          </Route>
+            {/* LOGIN PAGE */}
+            <Route element={<UserRedirect authUser={userAuth} />}>
+              <Route path={LOGIN_PATH} element={<Signin />} />
+            </Route>
+            {/* REGISTER PAGE */}
+            <Route element={<UserRedirect authUser={userAuth} />}>
+              <Route path={REGISTER_PATH} element={<Signup />} />
+            </Route>
+            {/* RESET PASSWORD PAGE */}
+            <Route element={<UserRedirect authUser={userAuth} />}>
+              <Route path={PASSWORD_RESET_PATH} element={<ForgoutPassword />} />
+            </Route>
 
-          {/* NOT FOUND */}
-          <Route path='*' element={<>NOT FOUND</>} />
-        </Route>
-      </Routes>
-      <ToastContainer />
-    </UserContext.Provider>
+            {/* NOT FOUND */}
+            <Route path='*' element={<>NOT FOUND</>} />
+          </Route>
+        </Routes>
+        <ToastContainer />
+      </UserContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 
