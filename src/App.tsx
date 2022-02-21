@@ -14,7 +14,13 @@ import {
   REGISTER_PATH,
 } from './constants';
 import { ProtectedRoute, UserRedirect } from './helpers/routes';
-import { Home, Signin, Signup, NotLoggedLanding } from './pages';
+import {
+  Home,
+  Signin,
+  Signup,
+  NotLoggedLanding,
+  ForgoutPassword,
+} from './pages';
 
 const App = () => {
   const [userAuth] = useAuthListener();
@@ -42,14 +48,11 @@ const App = () => {
           </Route>
           {/* RESET PASSWORD PAGE */}
           <Route element={<UserRedirect authUser={userAuth} />}>
-            <Route
-              path={PASSWORD_RESET_PATH}
-              element={<div>RESET PASSWORD PAGE</div>}
-            />
+            <Route path={PASSWORD_RESET_PATH} element={<ForgoutPassword />} />
           </Route>
 
           {/* NOT FOUND */}
-          <Route path='*' element={<div>NOT FOUND</div>} />
+          <Route path='*' element={<>NOT FOUND</>} />
         </Route>
       </Routes>
       <ToastContainer />

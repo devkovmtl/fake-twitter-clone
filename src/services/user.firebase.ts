@@ -4,10 +4,12 @@ import {
   getDoc,
   getDocs,
   query,
+  serverTimestamp,
   setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore';
+
 import { db, usersCollectionRef } from '../firebase';
 
 export const doesUserExist = async (email: string) => {
@@ -23,7 +25,10 @@ export const doesUserExist = async (email: string) => {
 
 export const addUser = async (user: any) => {
   try {
-    return await setDoc(doc(db, 'users', user.id), user);
+    return await setDoc(doc(db, 'users', user.id), {
+      ...user,
+      createdAt: serverTimestamp(),
+    });
   } catch (error: any) {
     throw new Error(error?.code);
   }
@@ -37,16 +42,6 @@ export const getUserById = async (id: string) => {
     throw new Error(error?.code);
   }
 };
-
-// // Atomically add a new region to the "regions" array field.
-// await updateDoc(washingtonRef, {
-//   regions: arrayUnion("greater_virginia")
-// });
-
-// // Atomically remove a region from the "regions" array field.
-// await updateDoc(washingtonRef, {
-//   regions: arrayRemove("east_coast")
-// });
 
 export const updateUserTweets = async (id: string, tweet: any) => {
   try {

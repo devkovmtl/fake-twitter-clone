@@ -1,20 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BsTwitter } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { REGISTER_PATH, LOGIN_PATH, HOME_PATH } from '../../constants';
-import { UserContext } from '../../context';
 import { addUser, doesUserExist, signInWithGoogle } from '../../services';
 import { notifyError } from '../../utils';
 import { AuthFormButton, AuthFormSeparator } from '../../components';
 
 const NotLoggedLading = () => {
   const navigate = useNavigate();
+
   const logInWithGoogle = async () => {
     try {
-      const result = await signInWithGoogle();
-      if (result.email) {
-        const userExist = await doesUserExist(result.email);
+      const user = await signInWithGoogle();
+      if (user.email) {
+        const userExist = await doesUserExist(user.email);
+        if (!userExist) {
+          // add user to db
+          await addUser(user);
+        }
       }
       navigate(HOME_PATH);
     } catch (error: any) {

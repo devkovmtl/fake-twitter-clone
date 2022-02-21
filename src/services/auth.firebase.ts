@@ -70,7 +70,7 @@ export const loginWithEmailPassword = async (
 ) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    const user = createUserWithAuthResult(result);
+    let user = createUserWithAuthResult(result);
     return user;
   } catch (error: any) {
     throw new Error(error.code || 'Error Login with Email and Password');
@@ -84,8 +84,8 @@ export const logout = () => {
 export const sendPasswordReset = async (email: string) => {
   try {
     const result = await sendPasswordResetEmail(auth, email);
-    console.log(result);
-  } catch (error) {
-    console.log(error);
+    return result;
+  } catch (error: any) {
+    throw new Error(error.code || 'Error Login with Email and Password');
   }
 };

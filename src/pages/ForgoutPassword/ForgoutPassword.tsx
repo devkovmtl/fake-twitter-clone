@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BsTwitter } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
-import { FormButton, FormInputField, FormSubtitle } from '../../components';
-import { EMAIL_VALIDATION } from '../../constants';
+import {
+  AuthFormStepHeader,
+  FormButton,
+  FormInputField,
+  FormSubtitle,
+} from '../../components';
+import { EMAIL_VALIDATION, LOGIN_PATH } from '../../constants';
 import { IFormValues } from '../../interface';
+import { sendPasswordReset } from '../../services';
+import { notifyError, notifyInfo } from '../../utils';
 
 const ForgoutPassword = () => {
   const navigate = useNavigate();
@@ -20,30 +26,37 @@ const ForgoutPassword = () => {
     },
   });
 
-  const formSubmit = (values: IFormValues) => {
+  const formSubmit = async (values: IFormValues) => {
     const { email } = values;
     console.log(email);
+    try {
+      const result = await sendPasswordReset(email);
+      notifyInfo('Check your email');
+      navigate(`${LOGIN_PATH}`, {
+        replace: true,
+      });
+    } catch (error: any) {
+      let msg = '';
+      if (error.message === 'auth/user-not-found') {
+        msg = 'Email not found.';
+      } else {
+        msg = 'An Error has occured, try again.';
+      }
+      notifyError(msg);
+    }
   };
 
   return (
-    <div className='w-full h-full bg-[#5a7082] flex md:items-center md:justify-center'>
-      <div className='bg-black w-full h-full flex flex-col md:rounded-2xl md:h-[650px] md:w-[600px]'>
+    <div className='w-full h-full bg-t-dark-gray flex md:items-center md:justify-center'>
+      <div className='w-full bg-white dark:bg-t-black  h-full flex flex-col md:rounded-2xl md:h-[650px] md:w-[600px]'>
         {/* HEADER CARD */}
-        <div className='h-[53px] text-white flex items-center px-4'>
-          <>
-            <button
-              onClick={() => navigate(-1)}
-              className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[#EFEFF4] hover:bg-opacity-10 transition-all'
-            >
-              <AiOutlineClose size={20} color={'#fff'} />
-            </button>
-            <span className='flex-1'></span>
-            <div>
-              <BsTwitter size={32} color={'#fff'} />
-            </div>
-            <span className='flex-1'></span>
-          </>
-        </div>
+        <AuthFormStepHeader
+          step={0}
+          iconAction={
+            <AiOutlineClose size={20} className='text-black dark:text-white' />
+          }
+          callback={() => navigate(-1)}
+        />
 
         <div className='px-8 w-full flex-1 flex flex-col'>
           <form
@@ -69,7 +82,7 @@ const ForgoutPassword = () => {
               }}
             />
 
-            <FormButton disabled={true} text='Submit' type='submit' />
+            <FormButton disabled={!isValid} text='Submit' type='submit' />
           </form>
         </div>
       </div>
