@@ -1,9 +1,17 @@
+import { type } from 'os';
 import React from 'react';
 import { ImageAvatar } from '../';
 
-function ProfileButton() {
+type ProfileButtonProps = {
+  callback: () => void;
+};
+
+function ProfileButton({ callback }: ProfileButtonProps) {
   return (
-    <button className='sm:w-[230px] flex justify-between items-center p-3 rounded-full text-sm hover:bg-t-dark-gray/20'>
+    <button
+      className='sm:w-[230px] flex justify-between items-center p-3 rounded-full text-sm hover:bg-t-dark-gray/20'
+      onClick={callback}
+    >
       <div className='flex justify-between items-center '>
         <ImageAvatar size={35} margin={true} />
         <div className='hidden sm:block'>
