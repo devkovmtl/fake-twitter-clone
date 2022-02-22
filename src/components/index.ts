@@ -14,6 +14,17 @@ export { default as FormInputField } from './FormInputField/FormInputField';
 export { default as FormSelect } from './FormSelect/FormSelect';
 export { default as Option } from './Option/Option';
 
+//
+export * from './SideNavBar';
+export { default as ImageAvatar } from './ImageAvatar/ImageAvatar';
+export { default as TweetButton } from './TweetButton/TweetButton';
+export * from './Tweet';
+
+// Home Page
+export { default as PageHeader } from './PageHeader/PageHeader';
+export { default as TweetForm } from './TweetForm/TweetForm';
+export * from './SideSuggestionBar/';
+
 // Tweet
 export { default as Modal } from './Modal/Modal';
 export { default as CircularProgressBar } from './CircularProgressBar/CircularProgressBar';

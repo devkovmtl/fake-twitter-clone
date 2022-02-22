@@ -11,12 +11,12 @@ const SwitchDarkMode = () => {
         onChange={() => setIsDarkMode(!isDarkMode)}
         className={`${
           isDarkMode ? 'bg-t-blue' : 'bg-t-bg-dark'
-        } relative inline-flex items-center h-[12px] rounded-full w-[22px]`}
+        } relative inline-flex items-center h-6 rounded-full w-11 border border-t-extra-light-gray`}
       >
         <span
           className={`${
-            isDarkMode ? 'translate-x-3' : 'translate-x-1'
-          } inline-block w-[8px] h-[8px] transform bg-white rounded-full transition ease-in-out duration-200`}
+            isDarkMode ? 'translate-x-6' : 'translate-x-1'
+          } inline-block w-4 h-4 transform bg-white rounded-full transition ease-in-out duration-200`}
         ></span>
       </Switch>
     </>
