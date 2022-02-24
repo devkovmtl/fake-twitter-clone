@@ -26,16 +26,24 @@ const useAuthListener = () => {
         setUserAuth(undefined);
       }
       if (user) {
-        // TODO
-        // fetch user to set update profile
-        // fetchUser(user.uid)
-        localStorage.setItem('authUser', JSON.stringify(user));
-        setUserAuth(user);
+        console.log(user);
+        fetchUser(user.uid)
+          .then((u) => {
+            console.log('User ', u);
+            localStorage.setItem('authUser', JSON.stringify(u));
+            setUserAuth(u);
+          })
+          .catch((err) => {
+            localStorage.removeItem('authUser');
+            setUserAuth(undefined);
+          });
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  console.log(userAuth);
 
   return [userAuth, setUserAuth];
 };

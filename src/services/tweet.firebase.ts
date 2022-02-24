@@ -36,25 +36,21 @@ export const getAllTweets = async () => {
 
 export const addTweet = async (user: any, text: string) => {
   try {
-    const tweet = {
-      text,
-      tweeterId: user.id,
-      name: user.username,
-      createdAt: serverTimestamp(),
-      likes: [],
-      retweets: [],
-      belongTo: user,
-    };
-
     const newDocRef = doc(collection(db, 'tweets'));
+    console.log('Author Id ', user.id);
     await setDoc(newDocRef, {
-      ...tweet,
       id: newDocRef.id,
+      authorId: user.id,
+      content: text,
+      createdAt: serverTimestamp(),
+      author: user,
+      anwsers: [],
+      retweets: [],
+      likes: [],
     });
-    // const tweetDoc = doc(db, 'tweets', newDocRef.id);
-    // return await (await getDoc(tweetDoc)).data();
     return true;
   } catch (error: any) {
+    console.log(error);
     throw new Error(error?.code);
   }
 };

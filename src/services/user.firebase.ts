@@ -36,8 +36,10 @@ export const addUser = async (user: any) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const userDoc = doc(db, 'users', id);
-    return await (await getDoc(userDoc)).data();
+    const userDocRef = doc(db, 'users', id);
+    const userDoc = await getDoc(userDocRef);
+    console.log(userDoc.data());
+    return await userDoc.data();
   } catch (error: any) {
     throw new Error(error?.code);
   }

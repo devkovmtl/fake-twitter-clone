@@ -9,15 +9,9 @@ type ImageAvatarProps = {
 };
 
 const ImageAvatar = ({ src, size, margin }: ImageAvatarProps) => {
-  let className = classNames(
-    'rounded-full',
-
-    {
-      [`w-[${size}px]`]: true,
-      [`h-[${size}px]`]: true,
-      'mr-2': margin,
-    }
-  );
+  let className = classNames('rounded-full', {
+    'mr-2': margin,
+  });
   return (
     <img
       src={src ? src : ImageSrc}

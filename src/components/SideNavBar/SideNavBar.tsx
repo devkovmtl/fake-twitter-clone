@@ -9,7 +9,8 @@ import { logout } from '../../services';
 const SideNavBar = () => {
   const [showLogout, setShowLogout] = useState(false);
   return (
-    <div className='w-[75px] sm:w-[275px] h-screen border-r border-r-t-extra-light-gray py-3 flex flex-col justify-between items-center'>
+    // <div className='w-[75px] sm:w-[275px] h-screen border-r border-r-t-extra-light-gray py-3 flex flex-col justify-between items-center'>
+    <div className='sticky top-0 left-0 h-screen w-[68px] sm:w-[275px] flex flex-col justify-between border-r border-r-t-extra-light-gray'>
       <nav className='sm:-ml-10 mb-2 flex flex-col justify-start items-start'>
         <ul>
           <li className='mb-2 '>
@@ -41,7 +42,21 @@ const SideNavBar = () => {
             className='flex items-center justify-center cursor-pointer p-3 sm:py-2 sm:pr-6  sm:pl-3 rounded-3xl hover:bg-t-dark-gray/20'
             onClick={logout}
           >
-            Logout
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6 mr-2'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
+              />
+            </svg>{' '}
+            <span>Logout</span>
           </button>
         </div>
       </div>

@@ -3,7 +3,8 @@ import { SideInputSearch, SideSuggestionArticle } from '.';
 
 function SideSuggesionBar() {
   return (
-    <div className='hidden md:flex md:flex-col min-w-[350px] h-screen sticky top-2 pt-3 pb-16'>
+    // <div className='hidden md:flex md:flex-col min-w-[350px] h-screen sticky top-2 pt-3 pb-16'>
+    <div className='sticky top-0 left-0 h-screen hidden md:w-[275px] md:flex flex-col justify-between border-l border-l-t-extra-light-gray'>
       {/* Search */}
       <div className='mt-2 mb-3 w-[350px] min-h-[32px] h-[53px] fixed top-2 z-[2]'>
         <SideInputSearch />
