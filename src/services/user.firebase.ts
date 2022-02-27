@@ -38,7 +38,6 @@ export const getUserById = async (id: string) => {
   try {
     const userDocRef = doc(db, 'users', id);
     const userDoc = await getDoc(userDocRef);
-    console.log(userDoc.data());
     return await userDoc.data();
   } catch (error: any) {
     throw new Error(error?.code);

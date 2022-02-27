@@ -22,15 +22,14 @@ const Tweet = ({
   createdAt,
   textTweetContent,
 }: TweetInfoProps) => {
-  console.log(createdAt);
   return (
     <div className='w-full flex flex-col bg-white dark:bg-t-bg-dark  px-4 py-2 border-b border-b-t-extra-light-gray overflow-hidden'>
       {/* Does somedy has retweet */}
       {/* {retweetInfo && <RetweetInfoHeader name={retweetName} />} */}
       <div className='flex pt-2'>
         {/* Avatar */}
-        <div className='flex flex-col items-center justify-start basis-[48px] mr-3'>
-          <ImageAvatar size={48} margin={false} />
+        <div className='flex flex-col items-center justify-start w-[48px] mr-3'>
+          <ImageAvatar />
         </div>
         {/* Content */}
         <div className='w-full flex flex-col'>

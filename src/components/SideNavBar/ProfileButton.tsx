@@ -1,4 +1,3 @@
-import { type } from 'os';
 import React from 'react';
 import { ImageAvatar } from '../';
 
@@ -13,7 +12,9 @@ function ProfileButton({ callback }: ProfileButtonProps) {
       onClick={callback}
     >
       <div className='flex justify-between items-center '>
-        <ImageAvatar size={35} margin={true} />
+        <div className='w-[35px] h-[35px]'>
+          <ImageAvatar />
+        </div>
         <div className='hidden sm:block'>
           <p className='font-bold'>Mikael</p>
           <p className='text-t-light-gray'>@devkovmtl</p>

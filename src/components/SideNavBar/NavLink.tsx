@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { toTitleCase } from '../../utils';
 
 type NavLinkProps = {
+  text: string;
   to: string;
   path: JSX.Element;
 };
 
-const NavLink = ({ to, path }: NavLinkProps) => {
+const NavLink = ({ to, path, text }: NavLinkProps) => {
   return (
     <Link
       to={to}
@@ -23,7 +24,7 @@ const NavLink = ({ to, path }: NavLinkProps) => {
         {path}
       </svg>
       <span className='hidden sm:block text-xl font-normal'>
-        {toTitleCase(to)}
+        {toTitleCase(text)}
       </span>
     </Link>
   );

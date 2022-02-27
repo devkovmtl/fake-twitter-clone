@@ -26,10 +26,8 @@ const useAuthListener = () => {
         setUserAuth(undefined);
       }
       if (user) {
-        console.log(user);
         fetchUser(user.uid)
           .then((u) => {
-            console.log('User ', u);
             localStorage.setItem('authUser', JSON.stringify(u));
             setUserAuth(u);
           })
@@ -42,8 +40,6 @@ const useAuthListener = () => {
 
     return () => unsubscribe();
   }, []);
-
-  console.log(userAuth);
 
   return [userAuth, setUserAuth];
 };

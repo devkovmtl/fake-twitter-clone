@@ -31,8 +31,8 @@ const Home = () => {
     <div className='flex md:w-[80%] md:mx-auto'>
       <SideNavBar />
 
-      <main className='h-full overscroll-y-auto basis-[600px] flex flex-col md:mr-8  '>
-        <div className='w-full flex-1 flex flex-col justify-between items-center'>
+      <main className='h-full overscroll-y-auto w-[600px] flex flex-col'>
+        <div className='w-full flex flex-col justify-between items-center'>
           {/* Header */}
           <PageHeader title='Home' />
           {/* End Header */}
@@ -43,22 +43,7 @@ const Home = () => {
 
           {/* Tweet */}
           {tweets.length > 0 &&
-            tweets.map((tweet, index) => (
-              // <Tweet
-              //   key={index}
-              //   userName={tweet.userName}
-              //   atName={tweet.atName}
-              //   createdAt={tweet.createdAt}
-              //   textTweetContent={tweet.textTweetContent}
-              //   retweetInfo={tweet.retweetInfo}
-              //   retweetName={tweet.retweetName}
-              // />
-              // <p
-              //   key={index}
-              //   className='bg-gray-300 my-2 border-t-blue max-w-sm'
-              // >
-              //   {JSON.stringify(tweet)}
-              // </p>
+            tweets.map((tweet) => (
               <Tweet
                 key={tweet.id}
                 userName={tweet.author.username}

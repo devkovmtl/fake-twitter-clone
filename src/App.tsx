@@ -11,6 +11,7 @@ import {
   HOME_PATH,
   LOGIN_PATH,
   PASSWORD_RESET_PATH,
+  PROFILE_PATH,
   REGISTER_PATH,
 } from './constants';
 import { ProtectedRoute, UserRedirect } from './helpers/routes';
@@ -20,6 +21,7 @@ import {
   Signup,
   NotLoggedLanding,
   ForgoutPassword,
+  Profile,
 } from './pages';
 
 const App = () => {
@@ -33,6 +35,11 @@ const App = () => {
             {/* HOME PAGE IF USER IS LOGGED */}
             <Route element={<ProtectedRoute authUser={userAuth} />}>
               <Route path={HOME_PATH} element={<Home />} />
+            </Route>
+
+            {/* PROFILE USER */}
+            <Route element={<ProtectedRoute authUser={userAuth} />}>
+              <Route path={PROFILE_PATH} element={<Profile />} />
             </Route>
 
             {/* HOME PAGE IF USER IS NOT LOGGED */}

@@ -11,8 +11,6 @@ const TweetForm = () => {
   const [numRow, setNumRow] = useState(0);
   const [numCharPerRow, setNumCharPerRow] = useState(0);
 
-  console.log('USER FORM ', userAuth);
-
   const {
     watch,
     register,
@@ -50,8 +48,8 @@ const TweetForm = () => {
   return (
     <div className='mt-2 w-full min-h-[140px] flex flex-col border-b border-b-t-extra-light-gray px-4 py-2'>
       <div className='flex-1 flex flex-row'>
-        <div className='flex flex-col basis-[48px] mr-3'>
-          <ImageAvatar size={48} margin={false} />
+        <div className='flex flex-col w-[48px] mr-3'>
+          <ImageAvatar />
         </div>
         <div className='flex-1 flex flex-col justify-between  '>
           <div className='flex-1 max-h-[720px] min-h-[24px]'>
