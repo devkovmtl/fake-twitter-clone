@@ -1,6 +1,9 @@
+import { HOME_PATH, PROFILE_PATH } from '.';
+
 export const navItems = [
   {
     text: 'home',
+    path: HOME_PATH,
     icon: (
       <path
         strokeLinecap='round'
@@ -69,6 +72,7 @@ export const navItems = [
 
   {
     text: 'profile',
+    path: PROFILE_PATH,
     icon: (
       <path
         strokeLinecap='round'

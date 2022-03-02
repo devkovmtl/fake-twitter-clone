@@ -39,7 +39,7 @@ const App = () => {
 
             {/* PROFILE USER */}
             <Route element={<ProtectedRoute authUser={userAuth} />}>
-              <Route path={PROFILE_PATH} element={<Profile />} />
+              <Route path={`${PROFILE_PATH}/:userId`} element={<Profile />} />
             </Route>
 
             {/* HOME PAGE IF USER IS NOT LOGGED */}

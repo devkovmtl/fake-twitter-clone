@@ -27,6 +27,10 @@ export const addUser = async (user: any) => {
   try {
     return await setDoc(doc(db, 'users', user.id), {
       ...user,
+      followings: [],
+      followers: [],
+      likes: [],
+      tweets: [],
       createdAt: serverTimestamp(),
     });
   } catch (error: any) {

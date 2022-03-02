@@ -37,7 +37,7 @@ const SideNavBar = () => {
             <NavLink
               key={index}
               text={n.text}
-              to={n.text === 'profile' ? `/profile/${userAuth.id}` : n.text}
+              to={n.path === PROFILE_PATH ? `/profile/${userAuth.id}` : n.path}
               path={n.icon}
             />
           ))}
