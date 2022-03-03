@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { ImageAvatar } from '..';
 import { UserContext } from '../../context';
 import { IFormTweet } from '../../interface';
-import { addTweet } from '../../services';
+import { addTweet, addTweetToUser } from '../../services';
 
 const TweetForm = () => {
   const { userAuth } = useContext(UserContext);
@@ -39,6 +39,7 @@ const TweetForm = () => {
       console.log('Tweet Form ', userAuth);
       const result = await addTweet(userAuth, tweetWatch);
       console.log(result);
+      await addTweetToUser(userAuth.id, result);
       reset();
     } catch (error) {
       console.log(error);

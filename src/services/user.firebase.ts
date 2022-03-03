@@ -48,14 +48,17 @@ export const getUserById = async (id: string) => {
   }
 };
 
-export const updateUserTweets = async (id: string, tweet: any) => {
+export const addTweetToUser = async (id: string, tweet: any) => {
+  console.log('user id', id);
+  console.log('user tweet', tweet);
   try {
     const userDoc = doc(db, 'users', id);
     if (!userDoc) {
       throw new Error('No user found');
     }
+    console.log('User Doc', userDoc);
     return updateDoc(userDoc, {
-      tweets: arrayUnion(tweet),
+      tweets: arrayUnion({ ...tweet }),
     });
   } catch (error: any) {
     throw new Error(error?.code);

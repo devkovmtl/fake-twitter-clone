@@ -6,7 +6,7 @@ import { UserContext } from '../../context';
 import placeholderAvatar from '../../images/avatar.jpg';
 import { IFormTweet } from '../../interface';
 import { CircularProgressBar } from '..';
-import { addTweet, updateUserTweets } from '../../services';
+import { addTweet, addTweetToUser } from '../../services';
 
 type ModalProps = {
   isOpen: boolean;
@@ -15,8 +15,8 @@ type ModalProps = {
 
 const Modal = ({ isOpen, closeModal }: ModalProps) => {
   const cancelButtonRef = useRef(null);
-  const { user } = useContext(UserContext);
-  const avatar = user.photoURL ? user.photoURL : placeholderAvatar;
+  const { userAuth } = useContext(UserContext);
+  const avatar = userAuth.photoURL ? userAuth.photoURL : placeholderAvatar;
 
   const {
     watch,
@@ -40,16 +40,12 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
     if (values.tweet.trim().length > 240) {
       return;
     }
-    // console.log(user);
-    // console.log(values.tweet);
-    const result = await addTweet(user, values.tweet);
-    // console.log('Modal ', result);
-    // // if (!result) {
-    // //   // problem
-    // // }
-    // // await updateUserTweets(user.id, result);
-    // closeModal();
-    // reset();
+
+    const result = await addTweet(userAuth, values.tweet);
+
+    await addTweetToUser(userAuth.id, result);
+    closeModal();
+    reset();
     if (!result) {
       // issue
     }
@@ -71,13 +67,13 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
     >
       <div className='min-h-screen flex flex-col items-center w-full bg-[rgba(91,112,131,0.4)]'>
         <Dialog.Overlay className='fixed inset-0' />
-        <div className='w-full h-screen md:min-h-[278px] md:max-h-[345px]   md:w-[600px] overflow-hidden md:rounded-2xl md:mt-9 bg-black bg-opacity-100 p-4 z-50'>
+        <div className='w-full h-screen md:min-h-[278px] md:max-h-[345px]   md:w-[600px] overflow-hidden md:rounded-2xl md:mt-9 bg-white  dark:bg-black bg-opacity-100 p-4 z-50'>
           <div className='h-[53px]'>
             <button
               onClick={closeModal}
               className='rounded-full w-9 h-9 flex items-center justify-center hover:bg-[rgba(239,243,244,0.1)] hover:bg-opacity-10 transition-all'
             >
-              <AiOutlineClose size={20} color={'#fff'} />
+              <AiOutlineClose size={20} color={'#657786'} />
             </button>
           </div>
 
@@ -95,7 +91,7 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
                   <textarea
                     id='tweet'
                     placeholder="What's happening?"
-                    className='block placeholder-[#6E767D] w-full font-normal bg-transparent focus:border-none border-none focus:outline-none focus:ring-transparent text-white text-lg h-[160px] rounded-xl md:resize-none bg-[rgba(100,116, 139,0.1)]'
+                    className='block placeholder-[#6E767D] w-full font-normal bg-transparent focus:border-none border-none focus:outline-none focus:ring-transparent text-black dark:text-white text-lg h-[160px] rounded-xl md:resize-none bg-[rgba(100,116, 139,0.1)]'
                     {...register('tweet', {
                       required: true,
                       maxLength: 240,
@@ -110,7 +106,7 @@ const Modal = ({ isOpen, closeModal }: ModalProps) => {
                       <CircularProgressBar
                         width='30'
                         progressValue={tweetWatch.length}
-                        centerCircleColor='#000'
+                        centerCircleColor='#fff'
                         ringWaitProgressColor='rgb(47,51,54)'
                         ringProgressColor='rgb(26,140,216)'
                         errorColor='rgb(255,0,0)'

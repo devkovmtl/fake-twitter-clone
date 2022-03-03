@@ -11,7 +11,6 @@ import {
 } from '..';
 
 import { logout } from '../../services';
-import { Menu } from '@headlessui/react';
 import { UserContext } from '../../context';
 
 const SideNavBar = () => {

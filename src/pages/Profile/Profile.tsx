@@ -1,16 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Tab } from '@headlessui/react';
 import {
   Loading,
   PageHeader,
   SideNavBar,
   SideSuggesionBar,
+  Tweet,
 } from '../../components';
 import { ProfilePageButton } from '.';
 import { getUserById } from '../../services';
 import ImageSrc from '../../images/avatar.jpg';
 import { UserContext } from '../../context';
 import { format, formatDistanceToNowStrict } from 'date-fns/esm';
+import { classNames } from '../../utils';
+
+const TABS = ['Tweets', 'Likes'];
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +28,7 @@ const Profile = () => {
   useEffect(() => {
     getUserById(params.userId)
       .then((user) => {
-        console.log(user);
+        // console.log(user);
         setUser((prevState: any) => ({ ...prevState, ...user }));
         setIsLoading(false);
       })
@@ -55,8 +60,8 @@ const Profile = () => {
             {/* Header profile */}
             <div className='w-full'>
               <div className=' h-[200px] bg-slate-500'></div>
-
-              <div className='relative w-full h-[314px]'>
+              {/* HEADER image, name... */}
+              <div className='relative w-full pb-8'>
                 <div className='w-[135px] h-[135px] absolute -top-[75px] ml-4'>
                   <img
                     src={ImageSrc}
@@ -155,6 +160,66 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            {/* #End Header profile */}
+
+            {/* Tab  */}
+            <div className='w-full px-2 sm:px-0 '>
+              <Tab.Group>
+                <Tab.List className='flex'>
+                  {TABS.map((el) => (
+                    <Tab
+                      key={el}
+                      className={({ selected }) =>
+                        classNames(
+                          'w-full border-b-2',
+                          'hover:bg-t-extra-light-gray py-5',
+                          selected ? 'border-t-blue' : ''
+                        )
+                      }
+                    >
+                      <p className='font-bold text-t-dark-gray border-t-blue'>
+                        {el}
+                      </p>
+                    </Tab>
+                  ))}
+                </Tab.List>
+                <Tab.Panels>
+                  <Tab.Panel>
+                    {user.tweets.length === 0 ? (
+                      <div>
+                        <p>No tweet yet</p>
+                      </div>
+                    ) : (
+                      user.tweets.map((tweet: any) => (
+                        <Tweet
+                          key={tweet.id}
+                          userName={tweet.author.username}
+                          atName={tweet.author.atTweeterName}
+                          createdAt={tweet.createdAt}
+                          textTweetContent={tweet.content}
+                        />
+                      ))
+                    )}
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    {user.likes.length === 0 ? (
+                      <div></div>
+                    ) : (
+                      user.likes.map((tweet: any) => (
+                        <Tweet
+                          key={tweet.id}
+                          userName={tweet.author.username}
+                          atName={tweet.author.atTweeterName}
+                          createdAt={tweet.createdAt}
+                          textTweetContent={tweet.content}
+                        />
+                      ))
+                    )}
+                  </Tab.Panel>
+                </Tab.Panels>
+              </Tab.Group>
+              {/*  */}
             </div>
           </div>
         </main>
