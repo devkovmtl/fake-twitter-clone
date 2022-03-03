@@ -43,15 +43,7 @@ const Home = () => {
 
           {/* Tweet */}
           {tweets.length > 0 &&
-            tweets.map((tweet) => (
-              <Tweet
-                key={tweet.id}
-                userName={tweet.author.username}
-                atName={tweet.author.atTweeterName}
-                createdAt={tweet.createdAt}
-                textTweetContent={tweet.content}
-              />
-            ))}
+            tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)}
           {/* End Of tweet */}
         </div>
       </main>

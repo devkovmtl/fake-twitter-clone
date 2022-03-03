@@ -5,6 +5,7 @@ type ActionTweetButtonProps = {
   textColor: string;
   bgColor: string;
   icon: JSX.Element;
+  userHasLikedTweet?: boolean;
   cb: () => void;
   num?: number;
 };
@@ -15,6 +16,7 @@ const ActionTweetButton = ({
   icon,
   cb,
   num,
+  userHasLikedTweet,
 }: ActionTweetButtonProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -26,7 +28,9 @@ const ActionTweetButton = ({
     [`${textColor}`]: isHovered,
   });
 
-  const textStr = classNames({ [`${textColor}`]: isHovered });
+  const textStr = classNames({
+    [`${textColor}`]: isHovered || userHasLikedTweet,
+  });
 
   return (
     <button

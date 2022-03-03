@@ -9,7 +9,7 @@ import {
   Tweet,
 } from '../../components';
 import { ProfilePageButton } from '.';
-import { getUserById } from '../../services';
+import { getAllUsersTweets, getUserById } from '../../services';
 import ImageSrc from '../../images/avatar.jpg';
 import { UserContext } from '../../context';
 import { format, formatDistanceToNowStrict } from 'date-fns/esm';
@@ -20,26 +20,33 @@ const TABS = ['Tweets', 'Likes'];
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>({});
+  const [userTweets, setUserTweets] = useState<any>([]);
+
   let params: any = useParams();
-  // let userId = params.get('userId');
-  // console.log(params.userId);
   const { userAuth } = useContext(UserContext);
 
   useEffect(() => {
     getUserById(params.userId)
       .then((user) => {
-        // console.log(user);
-        setUser((prevState: any) => ({ ...prevState, ...user }));
-        setIsLoading(false);
+        if (user) {
+          // console.log(user);
+          setUser((prevState: any) => ({ ...prevState, ...user }));
+          // console.log('USER ', user!.tweets);
+          getAllUsersTweets(user.id).then((tweets) => {
+            console.log(tweets);
+            setUserTweets(() => [...tweets]);
+          });
+          setIsLoading(false);
+        }
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
       });
-    console.log('Loading');
+    console.log();
+    // getAllUsersTweets()
   }, []);
 
-  console.log(user);
   return (
     <div className='flex md:w-[80%] md:mx-auto'>
       <SideNavBar />
@@ -186,23 +193,17 @@ const Profile = () => {
                 </Tab.List>
                 <Tab.Panels>
                   <Tab.Panel>
-                    {user.tweets.length === 0 ? (
+                    {userTweets.length === 0 ? (
                       <div>
                         <p>No tweet yet</p>
                       </div>
                     ) : (
-                      user.tweets.map((tweet: any) => (
-                        <Tweet
-                          key={tweet.id}
-                          userName={tweet.author.username}
-                          atName={tweet.author.atTweeterName}
-                          createdAt={tweet.createdAt}
-                          textTweetContent={tweet.content}
-                        />
+                      userTweets.map((tweet: any) => (
+                        <Tweet key={tweet.id} tweet={tweet} />
                       ))
                     )}
                   </Tab.Panel>
-                  <Tab.Panel>
+                  {/* <Tab.Panel>
                     {user.likes.length === 0 ? (
                       <div></div>
                     ) : (
@@ -216,7 +217,7 @@ const Profile = () => {
                         />
                       ))
                     )}
-                  </Tab.Panel>
+                  </Tab.Panel> */}
                 </Tab.Panels>
               </Tab.Group>
               {/*  */}

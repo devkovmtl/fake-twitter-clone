@@ -1,4 +1,5 @@
 import {
+  arrayRemove,
   arrayUnion,
   doc,
   getDoc,
@@ -57,10 +58,57 @@ export const addTweetToUser = async (id: string, tweet: any) => {
       throw new Error('No user found');
     }
     console.log('User Doc', userDoc);
+    console.log('Tweet ', tweet);
     return updateDoc(userDoc, {
-      tweets: arrayUnion({ ...tweet }),
+      tweets: arrayUnion(tweet.id),
     });
   } catch (error: any) {
     throw new Error(error?.code);
   }
 };
+
+export const removeTweetFromUser = async (id: string, tweet: any) => {
+  try {
+    const userDoc = doc(db, 'users', id);
+    if (!userDoc) {
+      throw new Error('No user found');
+    }
+    console.log('User Doc', userDoc);
+    console.log('Tweet ', tweet);
+    return updateDoc(userDoc, {
+      tweets: arrayRemove(tweet.id),
+    });
+  } catch (error: any) {
+    throw new Error(error?.code);
+  }
+};
+
+export const addLikeTweetToUser = async (userId: string, tweetId: string) => {
+  try {
+    const userDoc = doc(db, 'users', userId);
+    if (!userDoc) {
+      throw new Error('No user found');
+    }
+    return updateDoc(userDoc, {
+      likes: arrayUnion(tweetId),
+    });
+  } catch (error: any) {
+    throw new Error(error?.code);
+  }
+};
+
+export const removeLikeTweetUser = async (userId: string, tweetId: string) => {
+  try {
+    const userDoc = doc(db, 'users', userId);
+    if (!userDoc) {
+      throw new Error('No user found');
+    }
+    return updateDoc(userDoc, {
+      likes: arrayRemove(tweetId),
+    });
+  } catch (error: any) {
+    throw new Error(error?.code);
+  }
+};
+
+export const getUsersLike = async (userId: string) => {};
