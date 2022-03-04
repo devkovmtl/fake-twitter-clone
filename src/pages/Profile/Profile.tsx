@@ -9,7 +9,7 @@ import {
   Tweet,
 } from '../../components';
 import { ProfilePageButton } from '.';
-import { getAllUsersTweets, getUserById } from '../../services';
+import { getAllUsersTweets, getUserById, getUsersLike } from '../../services';
 import ImageSrc from '../../images/avatar.jpg';
 import { UserContext } from '../../context';
 import { format, formatDistanceToNowStrict } from 'date-fns/esm';
@@ -21,6 +21,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>({});
   const [userTweets, setUserTweets] = useState<any>([]);
+  const [tweetsLiked, setTweetsLiked] = useState<any>([]);
 
   let params: any = useParams();
   const { userAuth } = useContext(UserContext);
@@ -36,6 +37,10 @@ const Profile = () => {
             console.log(tweets);
             setUserTweets(() => [...tweets]);
           });
+          getUsersLike(user.likes).then((tweets) => {
+            console.log('LIKES ', tweets);
+            setTweetsLiked(() => [...tweets]);
+          });
           setIsLoading(false);
         }
       })
@@ -43,7 +48,7 @@ const Profile = () => {
         setIsLoading(false);
         console.log(err);
       });
-    console.log();
+
     // getAllUsersTweets()
   }, []);
 
@@ -203,24 +208,17 @@ const Profile = () => {
                       ))
                     )}
                   </Tab.Panel>
-                  {/* <Tab.Panel>
+                  <Tab.Panel>
                     {user.likes.length === 0 ? (
                       <div></div>
                     ) : (
-                      user.likes.map((tweet: any) => (
-                        <Tweet
-                          key={tweet.id}
-                          userName={tweet.author.username}
-                          atName={tweet.author.atTweeterName}
-                          createdAt={tweet.createdAt}
-                          textTweetContent={tweet.content}
-                        />
+                      tweetsLiked.map((tweet: any) => (
+                        <Tweet key={tweet.id} tweet={tweet} />
                       ))
                     )}
-                  </Tab.Panel> */}
+                  </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>
-              {/*  */}
             </div>
           </div>
         </main>

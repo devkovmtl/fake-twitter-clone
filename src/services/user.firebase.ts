@@ -11,7 +11,7 @@ import {
   where,
 } from 'firebase/firestore';
 
-import { db, usersCollectionRef } from '../firebase';
+import { db, tweetsCollectionRef, usersCollectionRef } from '../firebase';
 
 export const doesUserExist = async (email: string) => {
   const q = query(
@@ -111,4 +111,13 @@ export const removeLikeTweetUser = async (userId: string, tweetId: string) => {
   }
 };
 
-export const getUsersLike = async (userId: string) => {};
+export const getUsersLike = async (ids: string[]) => {
+  try {
+    const q = query(tweetsCollectionRef, where('id', 'in', [...ids]));
+
+    const { docs } = await getDocs(q);
+    return docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  } catch (error: any) {
+    throw new Error(error.code);
+  }
+};
