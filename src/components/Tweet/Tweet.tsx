@@ -12,6 +12,7 @@ import {
   userUnlikeTweet,
 } from '../../services';
 import { UserContext } from '../../context';
+import { Link } from 'react-router-dom';
 
 type TweetInfoProps = {
   tweet: any;
@@ -47,12 +48,14 @@ const Tweet = ({ tweet }: TweetInfoProps) => {
           {/* Header */}
           <div className='flex flex-row items-center justify-between'>
             <div className='flex flex-row items-center justify-start space-x-1'>
-              <span className='text-black dark:text-white font-bold'>
-                {tweet.author.username}
-              </span>
-              <span className='text-t-dark-gray'>
-                {tweet.author.atTweeterName}
-              </span>
+              <Link to={`/profile/${userAuth.id}`}>
+                <span className='text-black dark:text-white font-bold hover:underline'>
+                  {tweet.author.username}
+                </span>
+                <span className='text-t-dark-gray hover:underline'>
+                  {tweet.author.atTweeterName}
+                </span>
+              </Link>
               <span className='text-t-dark-gray'>∙</span>
               {tweet.createdAt && (
                 <span className='text-t-dark-gray'>
