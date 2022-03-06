@@ -46,7 +46,7 @@ const SideNavBar = () => {
       <div className='menu relative'>
         <ProfileButton callback={() => setShowLogout(!showLogout)} />
         <div
-          className={`absolute bottom-[60px]  w-[275px] h-[200px] border border-t-light-gray flex flex-col rounded-3xl bg-white shadow-md py-4 px-5 space-y-5 ${
+          className={`absolute bottom-[60px]  w-[275px] h-[200px] border border-t-light-gray flex flex-col rounded-3xl bg-white dark:bg-t-extra-light-gray shadow-md py-4 px-5 space-y-5 ${
             showLogout ? 'flex' : 'hidden'
           }`}
           onClick={() => setShowLogout(false)}
@@ -70,7 +70,7 @@ const SideNavBar = () => {
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6 mr-2'
+                className='h-6 w-6 mr-2 text-black'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
@@ -81,9 +81,13 @@ const SideNavBar = () => {
                   strokeWidth={2}
                   d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
                 />
-              </svg>{' '}
-              <span>Logout</span>
+              </svg>
+              <span className='text-black'>Logout</span>
             </button>
+            <div className='mt-3 flex items-center sm:pl-3'>
+              <p className='mr-3 text-black'>Dark Mode</p>
+              <SwitchDarkMode />
+            </div>
           </div>
         </div>
       </div>

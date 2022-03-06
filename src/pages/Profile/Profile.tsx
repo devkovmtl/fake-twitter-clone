@@ -14,6 +14,8 @@ import ImageSrc from '../../images/avatar.jpg';
 import { UserContext } from '../../context';
 import { format, formatDistanceToNowStrict } from 'date-fns/esm';
 import { classNames } from '../../utils';
+import { onSnapshot, query, QuerySnapshot, where } from 'firebase/firestore';
+import { tweetsCollectionRef } from '../../firebase';
 
 const TABS = ['Tweets', 'Likes'];
 
@@ -37,10 +39,12 @@ const Profile = () => {
             console.log(tweets);
             setUserTweets(() => [...tweets]);
           });
-          getUsersLike(user.likes).then((tweets) => {
-            console.log('LIKES ', tweets);
-            setTweetsLiked(() => [...tweets]);
-          });
+          if (user.likes.length > 0) {
+            getUsersLike(user.likes).then((tweets) => {
+              console.log('LIKES ', tweets);
+              setTweetsLiked(() => [...tweets]);
+            });
+          }
           setIsLoading(false);
         }
       })
@@ -50,6 +54,27 @@ const Profile = () => {
       });
 
     // getAllUsersTweets()
+  }, []);
+
+  useEffect(() => {
+    let unsubscribe;
+    if (userAuth.likes.length > 0) {
+      const q = query(
+        tweetsCollectionRef,
+        where('id', 'in', [...userAuth.likes])
+      );
+
+      unsubscribe = onSnapshot(q, (querySnapshot: QuerySnapshot<any>) => {
+        setTweetsLiked(
+          querySnapshot.docs.map((snapDoc: any) => ({
+            id: snapDoc.id,
+            ...snapDoc.data(),
+          }))
+        );
+      });
+    }
+
+    return unsubscribe;
   }, []);
 
   return (

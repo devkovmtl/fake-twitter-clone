@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ImageAvatar } from '../';
+import { UserContext } from '../../context';
 
 type ProfileButtonProps = {
   callback: () => void;
 };
 
 function ProfileButton({ callback }: ProfileButtonProps) {
+  const { userAuth } = useContext(UserContext);
+  console.log(userAuth);
   return (
     <button
       className='sm:w-[230px] flex justify-between items-center p-3 rounded-full text-sm hover:bg-t-dark-gray/20'
@@ -16,8 +19,8 @@ function ProfileButton({ callback }: ProfileButtonProps) {
           <ImageAvatar />
         </div>
         <div className='hidden sm:block'>
-          <p className='font-bold'>Mikael</p>
-          <p className='text-t-light-gray'>@devkovmtl</p>
+          <p className='font-bold'>{userAuth.name}</p>
+          <p className='text-t-light-gray'>{userAuth.atTweeterName}</p>
         </div>
       </div>
       <div className='hidden md:block'>
